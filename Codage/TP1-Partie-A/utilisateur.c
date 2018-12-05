@@ -12,14 +12,6 @@ int main(int argc, char * argv[]){
 
 	int nb_utilisateur = atoi(argv[1]);
 
-  //arrondir au multiple de 2 superieur
-  // if(nb_utilisateur){
-  //
-  // }
-
-  // int mat_hadamard_0[1][1] = {{1}};
-  // afficher_hadamard(mat_hadamard_0);
-
 
 	genererHadamard(nb_utilisateur);
 }
