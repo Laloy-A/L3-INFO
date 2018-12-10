@@ -4,6 +4,7 @@
 #include "hadamard.h"
 
 int main(int argc, char * argv[]){
+	ptrMatrice_t matriceH;
 
 	if(argc != 2){
 		printf("%s : <Nombre utilisateur>\n", argv[0]);
@@ -12,6 +13,7 @@ int main(int argc, char * argv[]){
 
 	int nb_utilisateur = atoi(argv[1]);
 
+	matriceH = genererHadamard(nb_utilisateur);
 
-	genererHadamard(nb_utilisateur);
+	printf("La matrice de Hadamard est :\n");	afficherMatrice(matriceH);
 }

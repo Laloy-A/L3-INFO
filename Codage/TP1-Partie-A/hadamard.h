@@ -2,8 +2,20 @@
 #define _HADAMARD_H_
 
 
-void afficher_hadamard(int mat_hadamard[1][1]);
+/*
+	Structure de la matrice de hadamard / matrice carrée
+*/
+struct matrice {
+	int taille;
+	int ** tab;
+};
+typedef struct matrice * ptrMatrice_t;
 
-void genererHadamard(int rang);
+
+void afficherMatrice(ptrMatrice_t);
+
+ptrMatrice_t genererHadamard(int rang);
+
+void detruireMatrice(ptrMatrice_t *);
 
 #endif
