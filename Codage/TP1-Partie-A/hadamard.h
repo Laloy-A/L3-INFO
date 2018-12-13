@@ -7,9 +7,19 @@
 */
 struct matrice {
 	int taille;
-	int ** tab;
+	char ** tab;
 };
 typedef struct matrice * ptrMatrice_t;
+
+
+/*
+	Structure contenant un tableau de caracteres
+*/
+struct tableauChar {
+	int taille;
+	char * str;
+};
+typedef struct tableauChar * ptrTabChar_t;
 
 
 
@@ -34,5 +44,30 @@ ptrMatrice_t genererHadamard(int rang);
 	Le pointeur passé en parametre est remis à NULL
 */
 void detruireMatrice(ptrMatrice_t *);
+
+
+
+
+ptrTabChar_t etalement(char * str, int nbUtil);
+
+
+
+
+
+/*
+	Alloue une structure tableauChar de la taille du nombre de caracteres passé en parametre
+*/
+ptrTabChar_t allouerTabChar(int);
+
+/*
+	Convertie une chaine de caractere en tableau d'elements binaires
+	Chaque bit du mot est isolé dans une case du tableau
+
+	Par exemple le caractere 'a', code ASCII 97 et est associé à l'octet : 0110 0001
+	tabBin contiendra le tableau suivant : 								|0|1|1|0|0|0|0|1|
+*/
+ptrTabChar_t strToTabBin(char *);
+
+void printTabChar(ptrTabChar_t);
 
 #endif

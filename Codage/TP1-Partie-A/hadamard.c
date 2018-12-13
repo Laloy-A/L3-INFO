@@ -130,3 +130,69 @@ ptrMatrice_t genererHadamard(int rang) {
 
 	return hn1;
 }
+
+
+
+
+
+
+
+ptrTabChar_t etalement(char * str, int nbUtil) {
+	ptrTabChar_t tabBin = strToTabBin(str);
+	printf("Tableau binaire associé à la chaîne %s :\n", str);		printTabChar(tabBin);
+
+	ptrMatrice_t matrice = genererHadamard(nbUtil);
+	printf("\nMatrice de Hadamard :\n");		printMatrice(matrice);
+
+	ptrTabChar_t codeEtal = allouerTabChar(tabBin->taille * matrice->taille);
+
+	for(int e = 0; e < codeEtal->taille; e++) {
+		for(int i = 0; i < tabBin->taille; i++)
+			for(int m = 0; m < matrice->taille; m++) {
+				codeEtal->str[e+m] = tabBin->str[i] ? matrice->tab[1][m] : matrice->tab[1][m] * -1;
+			}
+	}
+
+	return codeEtal;
+}
+
+
+
+
+
+
+
+
+
+ptrTabChar_t allouerTabChar(int taille) {
+	ptrTabChar_t tab = malloc(sizeof(*tab));
+	tab->taille = taille;
+	tab->str = malloc(taille);
+
+	return tab;
+}
+
+
+ptrTabChar_t strToTabBin(char * str) {
+	ptrTabChar_t tabBin = allouerTabChar(strlen(str)*8);
+	int indice = 0;
+
+	while(*str) {
+		for(int i = 0; i < 8; i++) {
+			tabBin->str[indice] = ( (*str << i) & 0b10000000 ) >> 7;
+			indice++;
+		}
+		str++;
+	}
+
+	return tabBin;
+}
+
+
+
+void printTabChar(ptrTabChar_t tab) {
+	for(int i = 0; i < tab->taille; i++) {
+		printf("| %d ", tab->str[i]);
+	}
+	printf("|\n");
+}
