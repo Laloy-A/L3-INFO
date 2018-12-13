@@ -15,5 +15,7 @@ int main(int argc, char * argv[]){
 
 	matriceH = genererHadamard(nb_utilisateur);
 
-	printf("La matrice de Hadamard est :\n");	afficherMatrice(matriceH);
+	printf("La matrice de Hadamard est :\n");
+	//afficherMatrice(matriceH);
+	printMatrice(matriceH);
 }
