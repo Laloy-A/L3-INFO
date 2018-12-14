@@ -8,35 +8,68 @@
 typedef enum {FAUX, VRAI} bool;
 
 
+/*
+	Structure de matrice carrée
+*/
+struct matrice {
+	int taille;
+	char ** tab;
+};
+typedef struct matrice * ptrMatrice_t;
+
 
 /*
 	Structure contenant un tableau de caracteres
 */
-struct tableauChar {
+struct vecteur {
 	int taille;
 	char * tab;
 };
-typedef struct tableauChar * ptrTabChar_t;
-
+typedef struct vecteur * ptrVecteur_t;
 
 
 
 /*
-	Alloue une structure tableauChar de la taille du nombre de caracteres passé en parametre
+	Alloue l'espace memoire pour une matrice carrée de taille n
+
+	Retourne un pointeur sur la matrice
 */
-ptrTabChar_t allouerTabChar(int);
+ptrMatrice_t allouerMatrice(int);
+
+/*
+	Alloue une structure vecteur de la taille passée en parametre
+
+	Retourne pointeur sur le vecteur
+*/
+ptrVecteur_t allouerVecteur(int);
+
 
 
 /*
-	Libere l'espace mémoire du tableau de char
+	L'espace mémoire réservé pour la matrice est supprimé
+
+	Le pointeur passé en parametre est remis à NULL
 */
-void detruireTabChar(ptrTabChar_t *);
+void detruireMatrice(ptrMatrice_t *);
+
+/*
+	Libere l'espace mémoire du vecteur
+*/
+void detruireVecteur(ptrVecteur_t *);
+
 
 
 /*
-	Affiche un tableau de char
+	Fonction d'affichage d'une matrice
 */
-void printTabChar(ptrTabChar_t);
+void printMatrice(ptrMatrice_t);
+
+/*
+	Affiche un vecteur
+*/
+void printVecteur(ptrVecteur_t);
+
+
 
 
 

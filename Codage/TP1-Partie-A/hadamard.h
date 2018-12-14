@@ -4,21 +4,11 @@
 #include "outils.h"
 
 
-/*
-	Structure de la matrice de hadamard / matrice carrée
-*/
-struct matrice {
-	int taille;
-	char ** tab;
-};
-typedef struct matrice * ptrMatrice_t;
 
 
 
-/*
-	Fonction d'affichage d'une matrice
-*/
-void printMatrice(ptrMatrice_t);
+
+
 
 
 /*
@@ -30,12 +20,7 @@ void printMatrice(ptrMatrice_t);
 ptrMatrice_t genererHadamard(int rang);
 
 
-/*
-	L'espace mémoire réservé pour la matrice est supprimé
 
-	Le pointeur passé en parametre est remis à NULL
-*/
-void detruireMatrice(ptrMatrice_t *);
 
 
 
@@ -48,7 +33,7 @@ void detruireMatrice(ptrMatrice_t *);
 	visualisation : booléen qui permet de visualiser la génération du code d'étalement.
 	A chaque lettre est associé sont code binaire et pour chaque bit sa séquence d'étalement.
 */
-ptrTabChar_t etalement(char * str, int nbUtil, bool visualisation);
+ptrVecteur_t etalement(char * str, int nbUtil, bool visualisation);
 
 
 
@@ -62,6 +47,6 @@ ptrTabChar_t etalement(char * str, int nbUtil, bool visualisation);
 	Par exemple le caractere 'a', code ASCII 97 et est associé à l'octet : 0110 0001
 	tabBin contiendra le tableau suivant : 								|0|1|1|0|0|0|0|1|
 */
-ptrTabChar_t strToTabBin(char *);
+ptrVecteur_t strToTabBin(char *);
 
 #endif

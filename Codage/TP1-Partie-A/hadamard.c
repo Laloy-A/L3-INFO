@@ -10,36 +10,12 @@
 
 
 
-/*
-	Affiche la matrice
-*/
-void printMatrice(ptrMatrice_t mat){
-	for(int i = 0; i < mat->taille; i++) {
-		for(int j = 0; j < mat->taille; j++) {
-				printf("| %2d ", mat->tab[i][j]);
-		}
-		printf("|\n");
-	}
-}
 
 
 
-/*
-	Alloue l'espace memoire pour une matrice carrée de taille n
 
-	Retourne un pointeur sur l'espace alloué
-*/
-ptrMatrice_t allouerMatrice(int n) {
-	ptrMatrice_t mat = malloc(sizeof(*mat));
 
-	mat->taille = n;
 
-	mat->tab = malloc(sizeof(*mat->tab) * n);
-	for(int i = 0; i < mat->taille; i++)
-		mat->tab[i] = malloc(sizeof(**(mat->tab)) * n);
-
-	return mat;
-}
 
 /*
 	Libère l'espace mémoire alloué pour la matrice
@@ -138,10 +114,10 @@ ptrMatrice_t genererHadamard(int rang) {
 
 
 
-ptrTabChar_t etalement(char * str, int nbUtil, bool visualisation) {
-	ptrTabChar_t tabBin = strToTabBin(str);
+ptrVecteur_t etalement(char * str, int nbUtil, bool visualisation) {
+	ptrVecteur_t tabBin = strToTabBin(str);		//
 	ptrMatrice_t matrice = genererHadamard(nbUtil);
-	ptrTabChar_t codeEtal = allouerTabChar(tabBin->taille * matrice->taille);
+	ptrVecteur_t codeEtal = allouerVecteur(tabBin->taille * matrice->taille);
 	int utilisateur = 1;	//quelle ligne de la matrice de H sera utilisée pour le code d'étalement
 
 	int indiceCode = 0;
@@ -164,7 +140,7 @@ if(visualisation) {
 	printf("\nLettre du message, code binaire et séquence d'étalement associée :\n\n");
 
 	for(int i = 0; i < (int)strlen(str); i++) {
-		printf("%c\n", str[i]);
+		printf("caractère \"%c\"\n", str[i]);
 		for(int j = 0; j < 8; j++) {
 			printf("%d =>", tabBin->tab[i*8+j]);
 			for(int k = 0; k < matrice->taille; k++)
@@ -175,7 +151,7 @@ if(visualisation) {
 	}
 }
 
-	detruireTabChar(&tabBin);
+	detruireVecteur(&tabBin);
 	detruireMatrice(&matrice);
 
 	return codeEtal;
@@ -192,8 +168,8 @@ if(visualisation) {
 
 
 
-ptrTabChar_t strToTabBin(char * str) {
-	ptrTabChar_t tabBin = allouerTabChar(strlen(str)*8);
+ptrVecteur_t strToTabBin(char * str) {
+	ptrVecteur_t tabBin = allouerVecteur(strlen(str)*8);
 	int indice = 0;
 
 	while(*str) {
