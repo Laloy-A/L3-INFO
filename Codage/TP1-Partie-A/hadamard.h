@@ -31,8 +31,8 @@ ptrVecteur_t etalement(char * str, int nbUtil, bool visualisation);
 	Convertie une chaine de caractere en tableau d'elements binaires
 	Chaque bit du mot est isolé dans une case du tableau
 
-	Par exemple le caractere 'a', code ASCII 97 et est associé à l'octet : 0110 0001
-	tabBin contiendra le tableau suivant : 								|0|1|1|0|0|0|0|1|
+	Par exemple le caractere 'a', code ASCII 97, est associé à l'octet : 0110 0001
+	La fonction retournera : 										|0|1|1|0|0|0|0|1|
 */
 ptrVecteur_t strToTabBin(char *);
 
