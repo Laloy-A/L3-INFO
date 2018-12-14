@@ -15,7 +15,7 @@ int main(int argc, char * argv[]){
 	nbUtil = atoi(argv[1]);
 
 
-	ptrVecteur_t code = etalement(str, nbUtil, 1);
+	ptrVecteur_t code = etalement(str, nbUtil, 0);
 
 	// printf("\n\nCode d'étalement :\n");
 	// printVecteur(code);

@@ -19,11 +19,8 @@ ptrMatrice_t genererHadamard(int rang);
 	Alloue l'espace mémoire pour stocker le code
 
 	Retourne un pointeur sur la zone mémoire
-
-	visualisation : booléen qui permet de visualiser la génération du code d'étalement.
-	A chaque lettre est associé sont code binaire et pour chaque bit sa séquence d'étalement.
 */
-ptrVecteur_t etalement(char * str, int nbUtil, bool visualisation);
+ptrVecteur_t etalement(char * str, int nbUtil, int utilisateur);
 
 
 

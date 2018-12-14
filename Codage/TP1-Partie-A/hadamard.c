@@ -85,6 +85,8 @@ ptrMatrice_t genererHadamard(int rang) {
 	// Initialise hn à [1] : matrice de Hadamard de rang 0
 	hn = allouerMatrice(1);
 	hn->tab[0][0] = 1;
+	if(rang == 1)
+		return hn;	//Retourne H0 si 1 seul utilisateur
 
 	// Matrice de Hadamard de rang n+1
 	ptrMatrice_t hn1;
@@ -114,11 +116,10 @@ ptrMatrice_t genererHadamard(int rang) {
 
 
 
-ptrVecteur_t etalement(char * str, int nbUtil, bool visualisation) {
-	ptrVecteur_t tabBin = strToTabBin(str);		//
+ptrVecteur_t etalement(char * str, int nbUtil, int utilisateur) {
+	ptrVecteur_t tabBin = strToTabBin(str);
 	ptrMatrice_t matrice = genererHadamard(nbUtil);
 	ptrVecteur_t codeEtal = allouerVecteur(tabBin->taille * matrice->taille);
-	int utilisateur = 1;	//quelle ligne de la matrice de H sera utilisée pour le code d'étalement
 
 	int indiceCode = 0;
 	for(int indiceTabBin = 0; indiceTabBin < tabBin->taille; indiceTabBin++) {	//parcours le tableau des elements binaires associés à la chaine str
@@ -132,23 +133,23 @@ ptrVecteur_t etalement(char * str, int nbUtil, bool visualisation) {
 
 /*
 	Visualisation de la génération du code détalement
+	Le caractere est associé à son code binaire (de haut en bas : MSB vers LSB)
+	Chaque bit du caractere est associé à son code d'étalement
 */
-if(visualisation) {
-	printf("Le code associé à l'utilisateur %d est :", utilisateur);
-	for(int i = 0; i < matrice->taille; i++)	printf(" %2d", matrice->tab[utilisateur][i]);
+printf("Le code associé à l'utilisateur %d est :", utilisateur);
+for(int i = 0; i < matrice->taille; i++)	printf(" %2d", matrice->tab[utilisateur][i]);
 
-	printf("\nLettre du message, code binaire et séquence d'étalement associée :\n\n");
+printf("\nLettre du message, code binaire et séquence d'étalement associée :\n\n");
 
-	for(int i = 0; i < (int)strlen(str); i++) {
-		printf("caractère \"%c\"\n", str[i]);
-		for(int j = 0; j < 8; j++) {
-			printf("%d =>", tabBin->tab[i*8+j]);
-			for(int k = 0; k < matrice->taille; k++)
-				printf(" %2d", codeEtal->tab[(i*8+j)*matrice->taille+k]);
-			printf("\n");
-		}
+for(int i = 0; i < (int)strlen(str); i++) {
+	printf("caractère \"%c\"\n", str[i]);
+	for(int j = 0; j < 8; j++) {
+		printf("%d =>", tabBin->tab[i*8+j]);
+		for(int k = 0; k < matrice->taille; k++)
+			printf(" %2d", codeEtal->tab[(i*8+j)*matrice->taille+k]);
 		printf("\n");
 	}
+	printf("\n");
 }
 
 	detruireVecteur(&tabBin);
