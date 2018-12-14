@@ -5,12 +5,6 @@
 
 
 
-
-
-
-
-
-
 /*
 	Génére une matrice de Hadamrd
 	La taille de la matrice sera la premiere puissance de 2 >= rang
@@ -18,10 +12,6 @@
 	Retourne un ptrMatrice_t : addresse d'une structure matrice
 */
 ptrMatrice_t genererHadamard(int rang);
-
-
-
-
 
 
 /*
@@ -34,9 +24,6 @@ ptrMatrice_t genererHadamard(int rang);
 	A chaque lettre est associé sont code binaire et pour chaque bit sa séquence d'étalement.
 */
 ptrVecteur_t etalement(char * str, int nbUtil, bool visualisation);
-
-
-
 
 
 
