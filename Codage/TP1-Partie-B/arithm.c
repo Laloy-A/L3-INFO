@@ -138,8 +138,8 @@ void decodage(struct lettreIntervalle * letInt, struct messageIntervalle * msg, 
 
 	printf("\n\n");
 
-	for(j = 0; j < inv->nbLettre; j++){
-		for(i = 0; i < inv->tailleInv; i++){
+	for(j = 0; j < inv->nbLettre; j++){ // On parcourt autant que le nombre de lettre dans la chaine
+		for(i = 0; i < inv->tailleInv; i++){ // On parcourt l'ensemble des lettres de l'inventaire
 			//printf("Valeur borne inf %.*2$Lf\n", msg->borneInf, inv->nbLettre);
 			if( (msg->borneInf >= letInt->inter[i].borneInf) && (msg->borneInf < letInt->inter[i].borneSup) ){
 				printf("%c - valeur borne inf %.*5$Lf - borne inf lettre %.*5$Lf - borne sup lettre %.*5$Lf\n", letInt->inter[i].caractere, msg->borneInf, letInt->inter[i].borneInf, letInt->inter[i].borneSup, inv->nbLettre);

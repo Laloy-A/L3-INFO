@@ -6,7 +6,7 @@ int main() {
 
 	int choix;	/* Choix de l'utilisateur */
 
-	int tableau[23] = { 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1 ,1 ,0, 0 };
+	int code[23] = { 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1 ,1 ,0, 0 };
 
 	do{
 		/* Affichage du menu */
@@ -21,10 +21,10 @@ int main() {
 
 		/* Traitement du choix de l'utilisateur */
 		switch(choix){
-			case 1 : code_art("ALEXANDRE"); break;
-			case 2:  code_hdbn(tableau); break;
-			case 3:  printf("En cours de traitement HDB3 ..."); break;
-			case 4:  printf("En cours de traitement HDB4 ..."); break;
+			case 1 : code_art("BILL GATES est trop cool"); break;
+			case 2:  code_hdbn(code, choix); break;
+			case 3:  code_hdbn(code, choix); break;
+			case 4:  code_hdbn(code, choix); break;
 			case 5:  break;
 			default: printf("En cours de traitement HDB3 ...");
 		}
