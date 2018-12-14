@@ -32,7 +32,11 @@ int main(int argc, char * argv[]){
 
 
 
-	ptrTabChar_t code = etalement(str, 4);
+	ptrTabChar_t code = etalement(str, 4, 1);
 
-	printf("\n\nCode d'étalement :\n");		printTabChar(code);
+	// printf("\n\nCode d'étalement :\n");
+	// printTabChar(code);
+
+
+	detruireTabChar(&code);
 }

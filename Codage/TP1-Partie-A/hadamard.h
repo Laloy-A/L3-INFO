@@ -1,6 +1,8 @@
 #ifndef _HADAMARD_H_
 #define _HADAMARD_H_
 
+#include "outils.h"
+
 
 /*
 	Structure de la matrice de hadamard / matrice carrée
@@ -10,16 +12,6 @@ struct matrice {
 	char ** tab;
 };
 typedef struct matrice * ptrMatrice_t;
-
-
-/*
-	Structure contenant un tableau de caracteres
-*/
-struct tableauChar {
-	int taille;
-	char * str;
-};
-typedef struct tableauChar * ptrTabChar_t;
 
 
 
@@ -47,17 +39,21 @@ void detruireMatrice(ptrMatrice_t *);
 
 
 
-
-ptrTabChar_t etalement(char * str, int nbUtil);
-
-
-
-
-
 /*
-	Alloue une structure tableauChar de la taille du nombre de caracteres passé en parametre
+	Genere le code d'étalement associé à la chaine str pour le nombre d'utilisateurs donné
+	Alloue l'espace mémoire pour stocker le code
+
+	Retourne un pointeur sur la zone mémoire
+
+	visualisation : booléen qui permet de visualiser la génération du code d'étalement.
+	A chaque lettre est associé sont code binaire et pour chaque bit sa séquence d'étalement.
 */
-ptrTabChar_t allouerTabChar(int);
+ptrTabChar_t etalement(char * str, int nbUtil, bool visualisation);
+
+
+
+
+
 
 /*
 	Convertie une chaine de caractere en tableau d'elements binaires
@@ -67,7 +63,5 @@ ptrTabChar_t allouerTabChar(int);
 	tabBin contiendra le tableau suivant : 								|0|1|1|0|0|0|0|1|
 */
 ptrTabChar_t strToTabBin(char *);
-
-void printTabChar(ptrTabChar_t);
 
 #endif

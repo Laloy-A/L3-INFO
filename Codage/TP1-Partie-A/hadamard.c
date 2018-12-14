@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <assert.h>
 #include "hadamard.h"
 
 
@@ -137,21 +138,45 @@ ptrMatrice_t genererHadamard(int rang) {
 
 
 
-ptrTabChar_t etalement(char * str, int nbUtil) {
+ptrTabChar_t etalement(char * str, int nbUtil, bool visualisation) {
 	ptrTabChar_t tabBin = strToTabBin(str);
-	printf("Tableau binaire associé à la chaîne %s :\n", str);		printTabChar(tabBin);
-
 	ptrMatrice_t matrice = genererHadamard(nbUtil);
-	printf("\nMatrice de Hadamard :\n");		printMatrice(matrice);
-
 	ptrTabChar_t codeEtal = allouerTabChar(tabBin->taille * matrice->taille);
+	int utilisateur = 1;	//quelle ligne de la matrice de H sera utilisée pour le code d'étalement
 
-	for(int e = 0; e < codeEtal->taille; e++) {
-		for(int i = 0; i < tabBin->taille; i++)
-			for(int m = 0; m < matrice->taille; m++) {
-				codeEtal->str[e+m] = tabBin->str[i] ? matrice->tab[1][m] : matrice->tab[1][m] * -1;
-			}
+	int indiceCode = 0;
+	for(int indiceTabBin = 0; indiceTabBin < tabBin->taille; indiceTabBin++) {	//parcours le tableau des elements binaires associés à la chaine str
+		for(int m = 0; m < matrice->taille; m++) {
+			codeEtal->tab[indiceCode] = tabBin->tab[indiceTabBin] ? matrice->tab[utilisateur][m] : matrice->tab[utilisateur][m] * -1;
+			indiceCode++;
+		}
 	}
+
+
+
+/*
+	Visualisation de la génération du code détalement
+*/
+if(visualisation) {
+	printf("Le code associé à l'utilisateur %d est :", utilisateur);
+	for(int i = 0; i < matrice->taille; i++)	printf(" %2d", matrice->tab[utilisateur][i]);
+
+	printf("\nLettre du message, code binaire et séquence d'étalement associée :\n\n");
+
+	for(int i = 0; i < (int)strlen(str); i++) {
+		printf("%c\n", str[i]);
+		for(int j = 0; j < 8; j++) {
+			printf("%d =>", tabBin->tab[i*8+j]);
+			for(int k = 0; k < matrice->taille; k++)
+				printf(" %2d", codeEtal->tab[(i*8+j)*matrice->taille+k]);
+			printf("\n");
+		}
+		printf("\n");
+	}
+}
+
+	detruireTabChar(&tabBin);
+	detruireMatrice(&matrice);
 
 	return codeEtal;
 }
@@ -164,13 +189,7 @@ ptrTabChar_t etalement(char * str, int nbUtil) {
 
 
 
-ptrTabChar_t allouerTabChar(int taille) {
-	ptrTabChar_t tab = malloc(sizeof(*tab));
-	tab->taille = taille;
-	tab->str = malloc(taille);
 
-	return tab;
-}
 
 
 ptrTabChar_t strToTabBin(char * str) {
@@ -179,20 +198,11 @@ ptrTabChar_t strToTabBin(char * str) {
 
 	while(*str) {
 		for(int i = 0; i < 8; i++) {
-			tabBin->str[indice] = ( (*str << i) & 0b10000000 ) >> 7;
+			tabBin->tab[indice] = ( (*str << i) & 0b10000000 ) >> 7;
 			indice++;
 		}
 		str++;
 	}
 
 	return tabBin;
-}
-
-
-
-void printTabChar(ptrTabChar_t tab) {
-	for(int i = 0; i < tab->taille; i++) {
-		printf("| %d ", tab->str[i]);
-	}
-	printf("|\n");
 }
