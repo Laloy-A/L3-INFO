@@ -1,6 +1,7 @@
 #ifndef _HADAMARD_H_
 #define _HADAMARD_H_
 
+#include <math.h>
 #include "outils.h"
 
 
@@ -20,7 +21,17 @@ ptrMatrice_t genererHadamard(int rang);
 
 	Retourne un pointeur sur la zone mémoire
 */
-ptrVecteur_t etalement(char * str, int nbUtil, int utilisateur);
+ptrVecteur_t codage(char * str, int nbUtil, int utilisateur);
+
+
+/*
+	Canal idéal : ne fait rien...
+*/
+void canalIdeal(ptrVecteur_t);
+
+
+
+void decodage(ptrVecteur_t);
 
 
 

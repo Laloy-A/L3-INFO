@@ -15,10 +15,17 @@ int main(int argc, char * argv[]){
 	nbUtil = atoi(argv[1]);
 
 
-	ptrVecteur_t code = etalement(str, nbUtil, 0);
+	ptrVecteur_t code = codage(str, nbUtil, 0);
 
-	// printf("\n\nCode d'étalement :\n");
-	// printVecteur(code);
+	printf("Code d'étalement :\n");
+	printVecteur(code);
+	printf("\n");
+
+
+	canalIdeal(code);
+
+
+	decodage(code);
 
 
 	detruireVecteur(&code);

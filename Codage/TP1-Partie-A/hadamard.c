@@ -4,7 +4,7 @@
 #include <assert.h>
 #include "hadamard.h"
 
-
+#define valeurAbsolue(x) fabs((double)x)
 
 
 
@@ -116,7 +116,7 @@ ptrMatrice_t genererHadamard(int rang) {
 
 
 
-ptrVecteur_t etalement(char * str, int nbUtil, int utilisateur) {
+ptrVecteur_t codage(char * str, int nbUtil, int utilisateur) {
 	ptrVecteur_t tabBin = strToTabBin(str);
 	ptrMatrice_t matrice = genererHadamard(nbUtil);
 	ptrVecteur_t codeEtal = allouerVecteur(tabBin->taille * matrice->taille);
@@ -130,27 +130,26 @@ ptrVecteur_t etalement(char * str, int nbUtil, int utilisateur) {
 	}
 
 
-
 /*
 	Visualisation de la génération du code détalement
 	Le caractere est associé à son code binaire (de haut en bas : MSB vers LSB)
 	Chaque bit du caractere est associé à son code d'étalement
 */
-printf("Le code associé à l'utilisateur %d est :", utilisateur);
-for(int i = 0; i < matrice->taille; i++)	printf(" %2d", matrice->tab[utilisateur][i]);
-
-printf("\nLettre du message, code binaire et séquence d'étalement associée :\n\n");
-
-for(int i = 0; i < (int)strlen(str); i++) {
-	printf("caractère \"%c\"\n", str[i]);
-	for(int j = 0; j < 8; j++) {
-		printf("%d =>", tabBin->tab[i*8+j]);
-		for(int k = 0; k < matrice->taille; k++)
-			printf(" %2d", codeEtal->tab[(i*8+j)*matrice->taille+k]);
-		printf("\n");
-	}
-	printf("\n");
-}
+// printf("Le code associé à l'utilisateur %d est :", utilisateur);
+// for(int i = 0; i < matrice->taille; i++)	printf(" %2d", matrice->tab[utilisateur][i]);
+//
+// printf("\nLettre du message, code binaire et séquence d'étalement associée :\n\n");
+//
+// for(int i = 0; i < (int)strlen(str); i++) {
+// 	printf("caractère \"%c\"\n", str[i]);
+// 	for(int j = 0; j < 8; j++) {
+// 		printf("%d =>", tabBin->tab[i*8+j]);
+// 		for(int k = 0; k < matrice->taille; k++)
+// 			printf(" %2d", codeEtal->tab[(i*8+j)*matrice->taille+k]);
+// 		printf("\n");
+// 	}
+// 	printf("\n");
+// }
 
 	detruireVecteur(&tabBin);
 	detruireMatrice(&matrice);
@@ -162,8 +161,32 @@ for(int i = 0; i < (int)strlen(str); i++) {
 
 
 
+void canalIdeal(ptrVecteur_t signal) {
+	return;
+}
 
 
+
+
+int rechercherMaxSignal(ptrVecteur_t signal) {
+	int max = 0;
+	int abs;
+	for(int i = 0; i < signal->taille; i++) {
+		abs = valeurAbsolue(signal->tab[i]);
+		if(abs > max)
+			max = abs;
+	}
+	return max;
+}
+
+void decodage(ptrVecteur_t signal) {
+	int max = rechercherMaxSignal(signal);
+	printf("%d utilisateurs\n", max);
+
+	ptrMatrice_t matrice = genererHadamard(max);
+
+	
+}
 
 
 

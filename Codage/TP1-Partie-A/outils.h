@@ -31,6 +31,7 @@ typedef struct vecteur * ptrVecteur_t;
 
 /*
 	Alloue l'espace memoire pour une matrice carrée de taille n
+	Les chanmps de la matrice sont initialisés à 0
 
 	Retourne un pointeur sur la matrice
 */
@@ -38,6 +39,7 @@ ptrMatrice_t allouerMatrice(int);
 
 /*
 	Alloue une structure vecteur de la taille passée en parametre
+	Les champs du vecteur sont initialisés à 0
 
 	Retourne pointeur sur le vecteur
 */

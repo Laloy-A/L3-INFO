@@ -11,7 +11,7 @@ ptrMatrice_t allouerMatrice(int n) {
 
 	mat->tab = malloc(sizeof(*mat->tab) * n);
 	for(int i = 0; i < mat->taille; i++)
-		mat->tab[i] = malloc(sizeof(**(mat->tab)) * n);
+		mat->tab[i] = calloc(n,  sizeof(**(mat->tab)));
 
 	return mat;
 }
@@ -19,7 +19,7 @@ ptrMatrice_t allouerMatrice(int n) {
 ptrVecteur_t allouerVecteur(int taille) {
 	ptrVecteur_t tab = malloc(sizeof(*tab));
 	tab->taille = taille;
-	tab->tab = malloc(sizeof(*tab->tab)*taille);
+	tab->tab = calloc(taille, sizeof(*tab->tab));
 
 	return tab;
 }
