@@ -1,6 +1,8 @@
 #ifndef OUTILS_H
 #define OUTILS_H
 
+#define MAX(a,b)	a > b ? a : b
+
 
 /*
 	Booléens
@@ -72,7 +74,17 @@ void printMatrice(ptrMatrice_t);
 void printVecteur(ptrVecteur_t);
 
 
+/*
+	Retourne un nouveau vecteur qui est la somme un à un des elements des 2 vecteurs
 
+	Exemple :
+	0 1 0 1 2
+		+
+	1 2 0 1
+		=
+	1 3 0 2 2
+*/
+ptrVecteur_t sommerVecteur(ptrVecteur_t, ptrVecteur_t);
 
 
 

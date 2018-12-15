@@ -5,7 +5,6 @@
 
 int main(int argc, char * argv[]){
 	int nbUtil;
-	char * str = "Hello World !";
 
 	if(argc != 2){
 		printf("%s : <Nombre utilisateur>\n", argv[0]);
@@ -14,18 +13,18 @@ int main(int argc, char * argv[]){
 
 	nbUtil = atoi(argv[1]);
 
-
-	ptrVecteur_t code = codage(str, nbUtil, 0);
+	ptrVecteur_t code = codage(nbUtil);
 
 	printf("Code d'étalement :\n");
 	printVecteur(code);
 	printf("\n");
 
 
+
 	canalIdeal(code);
 
 
-	decodage(code);
+	// decodage(code);
 
 
 	detruireVecteur(&code);

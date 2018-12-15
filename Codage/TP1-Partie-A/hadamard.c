@@ -1,7 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <assert.h>
 #include "hadamard.h"
 
 #define valeurAbsolue(x) fabs((double)x)
@@ -114,17 +110,49 @@ ptrMatrice_t genererHadamard(int rang) {
 
 
 
+ptrVecteur_t codage(int nbUtilisateurs) {
+	if(nbUtilisateurs <= 0) {
+		printf("ERREUR : Nombre d'utilisateur <= 0 (%d) ! Nombre positif non nul exigé.\n", nbUtilisateurs);
+		return NULL;
+	}
+
+	ptrMatrice_t matrice = genererHadamard(nbUtilisateurs);
+	ptrVecteur_t a, b, codeEtalement;
+
+	char str[128];
+	sprintf(str, "Je suis l'utilisateur %d !", nbUtilisateurs);
+	codeEtalement = etalement(str, 0, matrice);
+
+	while(--nbUtilisateurs) {
+		sprintf(str, "Je suis l'utilisateur %d !", nbUtilisateurs);
+
+		a = etalement(str, nbUtilisateurs, matrice);
+		b = codeEtalement;
+		codeEtalement = sommerVecteur(a, b);
+
+		detruireVecteur(&a);
+		detruireVecteur(&b);
+	}
+
+	detruireMatrice(&matrice);
+
+	return codeEtalement;
+}
 
 
-ptrVecteur_t codage(char * str, int nbUtil, int utilisateur) {
+
+
+
+ptrVecteur_t etalement(char * str, const int numUtilisateur, const ptrMatrice_t matrice) {
 	ptrVecteur_t tabBin = strToTabBin(str);
-	ptrMatrice_t matrice = genererHadamard(nbUtil);
+
 	ptrVecteur_t codeEtal = allouerVecteur(tabBin->taille * matrice->taille);
 
 	int indiceCode = 0;
 	for(int indiceTabBin = 0; indiceTabBin < tabBin->taille; indiceTabBin++) {	//parcours le tableau des elements binaires associés à la chaine str
 		for(int m = 0; m < matrice->taille; m++) {
-			codeEtal->tab[indiceCode] = tabBin->tab[indiceTabBin] ? matrice->tab[utilisateur][m] : matrice->tab[utilisateur][m] * -1;
+			//calcul le code d'etalement de l'element binaire
+			codeEtal->tab[indiceCode] = tabBin->tab[indiceTabBin] ? matrice->tab[numUtilisateur][m] : matrice->tab[numUtilisateur][m] * -1;
 			indiceCode++;
 		}
 	}
@@ -135,8 +163,8 @@ ptrVecteur_t codage(char * str, int nbUtil, int utilisateur) {
 	Le caractere est associé à son code binaire (de haut en bas : MSB vers LSB)
 	Chaque bit du caractere est associé à son code d'étalement
 */
-// printf("Le code associé à l'utilisateur %d est :", utilisateur);
-// for(int i = 0; i < matrice->taille; i++)	printf(" %2d", matrice->tab[utilisateur][i]);
+// printf("Le code associé à l'utilisateur %d est :", numUtilisateur);
+// for(int i = 0; i < matrice->taille; i++)	printf(" %2d", matrice->tab[numUtilisateur][i]);
 //
 // printf("\nLettre du message, code binaire et séquence d'étalement associée :\n\n");
 //
@@ -152,7 +180,6 @@ ptrVecteur_t codage(char * str, int nbUtil, int utilisateur) {
 // }
 
 	detruireVecteur(&tabBin);
-	detruireMatrice(&matrice);
 
 	return codeEtal;
 }
@@ -181,11 +208,29 @@ int rechercherMaxSignal(ptrVecteur_t signal) {
 
 void decodage(ptrVecteur_t signal) {
 	int max = rechercherMaxSignal(signal);
-	printf("%d utilisateurs\n", max);
+	printf("\n%d utilisateurs\n\n", max);
 
 	ptrMatrice_t matrice = genererHadamard(max);
+	printf("Matrice de H :\n");
+	printMatrice(matrice);
+	printf("\n");
 
-	
+	// int bit;
+	for(int indiceSignal = 0, indiceMatrice = 0; indiceSignal < signal->taille; indiceSignal++, indiceMatrice = (indiceMatrice +1) % matrice->taille) {
+
+		printf("%2d	%2d\n", signal->tab[indiceSignal], matrice->tab[0][indiceMatrice]);
+	}
+
+
+	// for(int i = 0; i < matrice->taille; i++) {	//test les differents codes possibles
+	// 	printf("\n\ncode %d\n", i);
+	// 	int bit = 0;
+	// 	for(int j = 0; j < signal->taille; j++) {
+	// 		bit += signal->tab[j] * matrice->tab[i][j % matrice->taille];
+	// 		if(j % matrice->taille == matrice->taille -1)
+	// 			printf("Bit : %d ; %d\n", bit, bit/matrice->taille);
+	// 	}
+	// }
 }
 
 

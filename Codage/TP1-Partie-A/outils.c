@@ -17,19 +17,19 @@ ptrMatrice_t allouerMatrice(int n) {
 }
 
 ptrVecteur_t allouerVecteur(int taille) {
-	ptrVecteur_t tab = malloc(sizeof(*tab));
-	tab->taille = taille;
-	tab->tab = calloc(taille, sizeof(*tab->tab));
+	ptrVecteur_t v = malloc(sizeof(*v));
+	v->taille = taille;
+	v->tab = calloc(taille, sizeof(*v->tab));
 
-	return tab;
+	return v;
 }
 
 
 
 
-void detruireVecteur(ptrVecteur_t * tab) {
-	free((*tab)->tab);
-	free(*tab);
+void detruireVecteur(ptrVecteur_t * v) {
+	free((*v)->tab);
+	free(*v);
 }
 
 
@@ -43,8 +43,22 @@ void printMatrice(ptrMatrice_t mat){
 	}
 }
 
-void printVecteur(ptrVecteur_t tab) {
-	for(int i = 0; i < tab->taille; i++) {
-		printf(" %2d ", tab->tab[i]);
+void printVecteur(ptrVecteur_t v) {
+	printf("Vecteur (taille = %d) : ", v->taille);
+	for(int i = 0; i < v->taille; i++) {
+		printf(" %2d ", v->tab[i]);
 	}
+}
+
+ptrVecteur_t sommerVecteur(ptrVecteur_t a, ptrVecteur_t b) {
+	ptrVecteur_t rtn = allouerVecteur(MAX(a->taille, b->taille));	//nouveau vecteur
+
+	//parcours le nouveau vecteur
+	for(int i = 0; i < rtn->taille; i++) {
+		//Affecte ses nouvelles valeurs au nouveau vecteur
+		//Verifier si les vecteurs ont des tailles différentes : ne pas additionner des elements hors des bornes des 2 vecteurs sources
+		rtn->tab[i] = (i < a->taille ? a->tab[i] : 0) + (i < b->taille ? b->tab[i] : 0);
+	}
+
+	return rtn;
 }

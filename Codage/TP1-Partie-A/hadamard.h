@@ -2,6 +2,9 @@
 #define _HADAMARD_H_
 
 #include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "outils.h"
 
 
@@ -21,7 +24,17 @@ ptrMatrice_t genererHadamard(int rang);
 
 	Retourne un pointeur sur la zone mémoire
 */
-ptrVecteur_t codage(char * str, int nbUtil, int utilisateur);
+ptrVecteur_t etalement(char * str, const int numUtilisateur, const ptrMatrice_t);
+
+
+
+/*
+	Simule l'envoie de messages par n utilisateurs
+
+	Le signal envoyé est contenu dans le retoure de la fonction
+*/
+ptrVecteur_t codage(int n);
+
 
 
 /*
