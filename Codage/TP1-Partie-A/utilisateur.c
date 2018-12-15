@@ -15,29 +15,11 @@ int main(int argc, char * argv[]){
 
 	ptrVecteur_t code = codage(nbUtil);
 
-	// printf("Code d'étalement :\n");
-	// printVecteur(code);
-	// printf("\n");
-
-
 
 	canalIdeal(code);
 
 
 	decodage(code);
-
-
-	// ptrVecteur_t v = strToTabBin("ca");
-	// printVecteur(v);
-	// printf("\n\n");
-	//
-	// char * str = tabBinToStr(v);
-	//
-	// printf("strlen : %ld\n", strlen(str));
-	//
-	// printf("%d\n", *str);
-	//
-	// printf("chaine : \"%s\"\n", str);
 
 
 	detruireVecteur(&code);
