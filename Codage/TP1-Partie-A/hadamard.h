@@ -40,7 +40,7 @@ ptrVecteur_t codage(int n);
 /*
 	Canal idéal : ne fait rien...
 */
-void canalIdeal(ptrVecteur_t);
+ptrVecteur_t canalIdeal(ptrVecteur_t);
 
 
 

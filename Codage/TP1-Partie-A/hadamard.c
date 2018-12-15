@@ -188,8 +188,8 @@ ptrVecteur_t etalement(char * str, const int numUtilisateur, const ptrMatrice_t 
 
 
 
-void canalIdeal(ptrVecteur_t signal) {
-	return;
+ptrVecteur_t canalIdeal(ptrVecteur_t signal) {
+	return signal;
 }
 
 
@@ -216,10 +216,10 @@ void decodage(ptrVecteur_t signal) {
 	printf("\n");
 
 	// int bit;
-	for(int indiceSignal = 0, indiceMatrice = 0; indiceSignal < signal->taille; indiceSignal++, indiceMatrice = (indiceMatrice +1) % matrice->taille) {
-
-		printf("%2d	%2d\n", signal->tab[indiceSignal], matrice->tab[0][indiceMatrice]);
-	}
+	// for(int indiceSignal = 0, indiceMatrice = 0; indiceSignal < signal->taille; indiceSignal++, indiceMatrice = (indiceMatrice +1) % matrice->taille) {
+	//
+	// 	printf("%2d	%2d\n", signal->tab[indiceSignal], matrice->tab[0][indiceMatrice]);
+	// }
 
 
 	// for(int i = 0; i < matrice->taille; i++) {	//test les differents codes possibles
@@ -231,6 +231,8 @@ void decodage(ptrVecteur_t signal) {
 	// 			printf("Bit : %d ; %d\n", bit, bit/matrice->taille);
 	// 	}
 	// }
+
+	detruireMatrice(matrice);
 }
 
 
