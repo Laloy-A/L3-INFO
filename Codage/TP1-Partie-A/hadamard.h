@@ -57,4 +57,6 @@ void decodage(ptrVecteur_t);
 */
 ptrVecteur_t strToTabBin(char *);
 
+char * tabBinToStr(ptrVecteur_t);
+
 #endif

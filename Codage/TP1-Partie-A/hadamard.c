@@ -121,12 +121,13 @@ ptrVecteur_t codage(int nbUtilisateurs) {
 
 	char str[128];
 	sprintf(str, "Je suis l'utilisateur %d !", nbUtilisateurs);
-	codeEtalement = etalement(str, 0, matrice);
+	//si 3 utilisatateur : utilisateur 3 envoie le message "3" et est associé au 3eme code d'étalement de la matrice de H (ligne d'indice 2)
+	codeEtalement = etalement(str, nbUtilisateurs-1, matrice);
 
 	while(--nbUtilisateurs) {
 		sprintf(str, "Je suis l'utilisateur %d !", nbUtilisateurs);
 
-		a = etalement(str, nbUtilisateurs, matrice);
+		a = etalement(str, nbUtilisateurs-1, matrice);
 		b = codeEtalement;
 		codeEtalement = sommerVecteur(a, b);
 
@@ -208,31 +209,35 @@ int rechercherMaxSignal(ptrVecteur_t signal) {
 
 void decodage(ptrVecteur_t signal) {
 	int max = rechercherMaxSignal(signal);
-	printf("\n%d utilisateurs\n\n", max);
 
 	ptrMatrice_t matrice = genererHadamard(max);
-	printf("Matrice de H :\n");
-	printMatrice(matrice);
-	printf("\n");
 
-	// int bit;
-	// for(int indiceSignal = 0, indiceMatrice = 0; indiceSignal < signal->taille; indiceSignal++, indiceMatrice = (indiceMatrice +1) % matrice->taille) {
-	//
-	// 	printf("%2d	%2d\n", signal->tab[indiceSignal], matrice->tab[0][indiceMatrice]);
-	// }
+	ptrVecteur_t tabBin = allouerVecteur(signal->taille / matrice->taille);
 
+	int codeEtal = matrice->taille-1;
+	while(codeEtal >= 0) {
 
-	// for(int i = 0; i < matrice->taille; i++) {	//test les differents codes possibles
-	// 	printf("\n\ncode %d\n", i);
-	// 	int bit = 0;
-	// 	for(int j = 0; j < signal->taille; j++) {
-	// 		bit += signal->tab[j] * matrice->tab[i][j % matrice->taille];
-	// 		if(j % matrice->taille == matrice->taille -1)
-	// 			printf("Bit : %d ; %d\n", bit, bit/matrice->taille);
-	// 	}
-	// }
+			int bit = 0;
+			int indiceSignal = 0, indiceTabBin = 0;
+			while(indiceSignal < signal->taille) {
+				for(int indiceH = 0; indiceH < matrice->taille; indiceH++, indiceSignal++) {
+					bit += signal->tab[indiceSignal] * matrice->tab[codeEtal][indiceH];
+				}
+				bit /= matrice->taille;
+				tabBin->tab[indiceTabBin] = (bit +1) / 2;	//Convertie -1 / 1 => 0 / 1		affecte dans tabBin
+				indiceTabBin++;
+				bit = 0;
+			}
 
-	detruireMatrice(matrice);
+			char * str = tabBinToStr(tabBin);
+			printf("Chaîne associée à l'utilisateur %d : \"%s\"\n", codeEtal+1, str);
+			free(str);
+
+		codeEtal--;
+	}
+
+	detruireVecteur(&tabBin);
+	detruireMatrice(&matrice);
 }
 
 
@@ -252,4 +257,23 @@ ptrVecteur_t strToTabBin(char * str) {
 	}
 
 	return tabBin;
+}
+
+
+char * tabBinToStr(ptrVecteur_t tabBin) {
+	char * str = malloc(tabBin->taille / 8 +1);
+	int indiceStr = 0;
+
+	int indiceTabBin = 0;
+	while(indiceTabBin < tabBin->taille) {
+		char c = 0;
+		for(int i = 0; i < 8; i++, indiceTabBin++) {
+			c = (c << 1) + tabBin->tab[indiceTabBin];
+		}
+		str[indiceStr] = c;
+		indiceStr++;
+	}
+	str[indiceStr] = '\0';
+
+	return str;
 }
