@@ -229,9 +229,9 @@ void decodage(ptrVecteur_t signal) {
 				bit = 0;
 			}
 
-			char * str = tabBinToStr(tabBin);
+			char str[128];
+			tabBinToStr(str, tabBin);
 			printf("Chaîne associée à l'utilisateur %d : \"%s\"\n", codeEtal+1, str);
-			free(str);
 
 		codeEtal--;
 	}
@@ -260,8 +260,7 @@ ptrVecteur_t strToTabBin(char * str) {
 }
 
 
-char * tabBinToStr(ptrVecteur_t tabBin) {
-	char * str = malloc(tabBin->taille / 8 +1);
+char * tabBinToStr(char * dest, ptrVecteur_t tabBin) {
 	int indiceStr = 0;
 
 	int indiceTabBin = 0;
@@ -270,10 +269,10 @@ char * tabBinToStr(ptrVecteur_t tabBin) {
 		for(int i = 0; i < 8; i++, indiceTabBin++) {
 			c = (c << 1) + tabBin->tab[indiceTabBin];
 		}
-		str[indiceStr] = c;
+		dest[indiceStr] = c;
 		indiceStr++;
 	}
-	str[indiceStr] = '\0';
+	dest[indiceStr] = '\0';
 
-	return str;
+	return dest;
 }
