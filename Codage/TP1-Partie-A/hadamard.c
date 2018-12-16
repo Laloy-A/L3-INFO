@@ -101,7 +101,7 @@ void decodage(ptrVecteur_t signal) {
 
 ptrVecteur_t etalement(char * str, const int canal, const ptrMatrice_t matrice) {
 	if(canal > matrice->taille && canal >= 0) {
-		printf("ERREUR, le canal (%d) pour la génération du code d'étalement n'est pas correcte [0;%d]\n !", numUtilisateur, matrice->taille);
+		printf("ERREUR, le canal (%d) pour la génération du code d'étalement n'est pas correcte [0;%d]\n !", canal, matrice->taille);
 		return NULL;
 	}
 
