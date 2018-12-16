@@ -77,10 +77,13 @@ ptrVecteur_t strToTabBin(char *);
 
 
 /*
-	Convertie un vecteur en une chaine de caracteres :
+	Convertie un vecteur en une chaine de caracteres
+
+	Le resultat dans la chaine de caractères passée en parametre, la chaine doit etre initialisée
+	Retourne la chaine passée en param
 
 	==> Concatene les elements du vecteurs : |0|1|1|0|0|0|0|1| ==> donnera l'octet 0110 0001
-	La fonction ne garantie pas le résultat pour des valeurs du vecteur différentes de 0 et 1
+	ATTENTION : La fonction ne garantie pas le résultat pour des valeurs du vecteur différentes de 0 et 1
 */
 char * tabBinToStr(char *, ptrVecteur_t);
 

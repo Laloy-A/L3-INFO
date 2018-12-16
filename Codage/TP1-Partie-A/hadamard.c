@@ -35,20 +35,23 @@ ptrVecteur_t codage(int nbUtilisateurs) {
 	}
 
 	ptrMatrice_t matrice = genererHadamard(nbUtilisateurs);
-	ptrVecteur_t a, b, codeEtalement;
+	ptrVecteur_t a, b, signal;
 
 	char str[128];
 	sprintf(str, "Je suis l'utilisateur %d !", nbUtilisateurs);
 
 	//si 3 utilisatateur : utilisateur 3 envoie le message "3" et est associé au 3eme code d'étalement (canal) de la matrice de H (ligne d'indice 2)
-	codeEtalement = etalement(str, nbUtilisateurs-1, matrice);
+	signal = etalement(str, nbUtilisateurs-1, matrice);
 
+	//affecte chaque utilisateur a son canal
+	//genere le code de l'utilisateur
+	//le somme au signal de sortie
 	while(--nbUtilisateurs) {
 		sprintf(str, "Je suis l'utilisateur %d !", nbUtilisateurs);
 
 		a = etalement(str, nbUtilisateurs-1, matrice);
-		b = codeEtalement;
-		codeEtalement = sommerVecteur(a, b);
+		b = signal;
+		signal = sommerVecteur(a, b);
 
 		detruireVecteur(&a);
 		detruireVecteur(&b);
@@ -56,7 +59,7 @@ ptrVecteur_t codage(int nbUtilisateurs) {
 
 	detruireMatrice(&matrice);
 
-	return codeEtalement;
+	return signal;
 }
 
 
@@ -67,14 +70,16 @@ void decodage(ptrVecteur_t signal) {
 
 	ptrVecteur_t tabBin = allouerVecteur(signal->taille / matrice->taille);
 
-	int codeEtal = matrice->taille-1;
-	while(codeEtal >= 0) {
+	//parcours les differents canaux et affiche la chaine de caracteres associée
+	int canal = matrice->taille-1;
+	while(canal >= 0) {
 
+			//decode le signal suivant le canal
 			int bit = 0;
 			int indiceSignal = 0, indiceTabBin = 0;
 			while(indiceSignal < signal->taille) {
 				for(int indiceH = 0; indiceH < matrice->taille; indiceH++, indiceSignal++) {
-					bit += signal->tab[indiceSignal] * matrice->tab[codeEtal][indiceH];
+					bit += signal->tab[indiceSignal] * matrice->tab[canal][indiceH];
 				}
 				bit /= matrice->taille;
 				tabBin->tab[indiceTabBin] = (bit +1) / 2;	//Convertie -1 / 1 => 0 / 1		affecte dans tabBin
@@ -84,9 +89,9 @@ void decodage(ptrVecteur_t signal) {
 
 			char str[128];
 			tabBinToStr(str, tabBin);
-			printf("Chaîne associée à l'utilisateur %d : \"%s\"\n", codeEtal+1, str);
+			printf("Chaîne associée à l'utilisateur %d : \"%s\"\n", canal+1, str);
 
-		codeEtal--;
+		canal--;
 	}
 
 	detruireVecteur(&tabBin);
@@ -94,21 +99,25 @@ void decodage(ptrVecteur_t signal) {
 }
 
 
-ptrVecteur_t etalement(char * str, const int numUtilisateur, const ptrMatrice_t matrice) {
-	if(numUtilisateur > matrice->taille && numUtilisateur >= 0) {
+ptrVecteur_t etalement(char * str, const int canal, const ptrMatrice_t matrice) {
+	if(canal > matrice->taille && canal >= 0) {
 		printf("ERREUR, le canal (%d) pour la génération du code d'étalement n'est pas correcte [0;%d]\n !", numUtilisateur, matrice->taille);
 		return NULL;
 	}
 
+	//genere le tableau des elements bianre de la chaine str
 	ptrVecteur_t tabBin = strToTabBin(str);
 
 	ptrVecteur_t codeEtal = allouerVecteur(tabBin->taille * matrice->taille);
 
+	//parcours le tableau des elements binaires
+	//calcul le code d'étalement de chaque element binaire suivant le canal choisi
+	//Le résultat se trouve dans le vecteur codeEtal
 	int indiceCode = 0;
-	for(int indiceTabBin = 0; indiceTabBin < tabBin->taille; indiceTabBin++) {	//parcours le tableau des elements binaires associés à la chaine str
+	for(int indiceTabBin = 0; indiceTabBin < tabBin->taille; indiceTabBin++) {
 		for(int m = 0; m < matrice->taille; m++) {
 			//calcul le code d'etalement de l'element binaire
-			codeEtal->tab[indiceCode] = tabBin->tab[indiceTabBin] ? matrice->tab[numUtilisateur][m] : matrice->tab[numUtilisateur][m] * -1;
+			codeEtal->tab[indiceCode] = tabBin->tab[indiceTabBin] ? matrice->tab[canal][m] : matrice->tab[canal][m] * -1;
 			indiceCode++;
 		}
 	}
@@ -154,7 +163,8 @@ ptrMatrice_t genererHadamard(int rang) {
 	ptrMatrice_t hn1;
 
 
-	// Générer les matrices successives de 1 à n	;	 n étant la premiere puissance de 2 >= rang
+	// Générer les matrices successives de 1 à n
+	// n étant la premiere puissance de 2 >= rang
 	int i = 1;
 	do {
 		i *= 2;
@@ -228,6 +238,8 @@ ptrVecteur_t strToTabBin(char * str) {
 	ptrVecteur_t tabBin = allouerVecteur(strlen(str)*8);
 	int indice = 0;
 
+	// parcours la chaine de caracteres
+	// associe chaque bit a une valeur du vecteur tabBin
 	while(*str) {
 		for(int i = 0; i < 8; i++) {
 			tabBin->tab[indice] = ( (*str << i) & 0b10000000 ) >> 7;
@@ -243,6 +255,9 @@ ptrVecteur_t strToTabBin(char * str) {
 char * tabBinToStr(char * dest, ptrVecteur_t tabBin) {
 	int indiceStr = 0;
 
+	// Parcours le vecteur
+	// Concatene chaque valeur du vecteur
+	// Le resultat dans une chaine de caracteres
 	int indiceTabBin = 0;
 	while(indiceTabBin < tabBin->taille) {
 		char c = 0;
