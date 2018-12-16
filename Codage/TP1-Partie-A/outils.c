@@ -4,15 +4,15 @@
 
 
 ptrMatrice_t allouerMatrice(int n) {
-	ptrMatrice_t mat = malloc(sizeof(*mat));
+	ptrMatrice_t m = malloc(sizeof(*m));
 
-	mat->taille = n;
+	m->taille = n;
 
-	mat->tab = malloc(sizeof(*mat->tab) * n);
-	for(int i = 0; i < mat->taille; i++)
-		mat->tab[i] = calloc(n,  sizeof(**(mat->tab)));
+	m->tab = malloc(sizeof(*m->tab) * n);
+	for(int i = 0; i < m->taille; i++)
+		m->tab[i] = calloc(n,  sizeof(**(m->tab)));
 
-	return mat;
+	return m;
 }
 
 
@@ -25,16 +25,25 @@ ptrVecteur_t allouerVecteur(int taille) {
 }
 
 
+void detruireMatrice(ptrMatrice_t * m) {
+	for(int i = 0; i < (*m)->taille; i++)
+		free((*m)->tab[i]);
+ 	free((*m)->tab);
+ 	free(*m);
+	*m = NULL;
+}
+
+
 void detruireVecteur(ptrVecteur_t * v) {
 	free((*v)->tab);
 	free(*v);
 }
 
 
-void printMatrice(ptrMatrice_t mat){
-	for(int i = 0; i < mat->taille; i++) {
-		for(int j = 0; j < mat->taille; j++) {
-				printf("| %2d ", mat->tab[i][j]);
+void printMatrice(ptrMatrice_t m){
+	for(int i = 0; i < m->taille; i++) {
+		for(int j = 0; j < m->taille; j++) {
+			printf("| %2d ", m->tab[i][j]);
 		}
 		printf("|\n");
 	}

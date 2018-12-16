@@ -8,7 +8,7 @@
 
 #include "outils.h"
 
-
+void test();
 /*
 	Canal idéal : ne fait rien de plus que rien...
 */

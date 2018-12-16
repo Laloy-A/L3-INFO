@@ -54,7 +54,7 @@ ptrVecteur_t codage(int nbUtilisateurs) {
 		detruireVecteur(&b);
 	}
 
-	// detruireMatrice(&matrice);
+	detruireMatrice(&matrice);
 
 	return codeEtalement;
 }
@@ -90,7 +90,7 @@ void decodage(ptrVecteur_t signal) {
 	}
 
 	detruireVecteur(&tabBin);
-	// detruireMatrice(&matrice);
+	detruireMatrice(&matrice);
 }
 
 
@@ -166,7 +166,6 @@ ptrMatrice_t genererHadamard(int rang) {
 
 		// Matrice Hn devient Hn+1
 		detruireMatrice(&hn);
-		printMatrice(hn);
 		hn = hn1;
 	} while( i < rang );
 
