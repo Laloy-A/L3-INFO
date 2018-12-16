@@ -1,113 +1,31 @@
 #include "hadamard.h"
 
-#define valeurAbsolue(x) fabs((double)x)
-
-
-
-
-
-
-
-
-
-
-
 
 /*
-	Libère l'espace mémoire alloué pour la matrice
-
-	Le pointeur passé en parametre est initialisé à NULL
-*/
-void detruireMatrice(ptrMatrice_t * mat) {
-	for(int i = 0; i < (*mat)->taille; i++)
-		free((*mat)->tab[i]);
-	free((*mat)->tab);
-	free(*mat);
-	*mat = NULL;
-}
-
-/*
-	Remplis la matrice hn selon l'algo de hadamard
+	Remplis la matrice hn selon l'algo de Hadamard
 	hn = 	[ hn1	hn1 ]
 			[ hn1  -hn1 ]
 
 	hn doit etre une matrice carrée de taille 2 fois supérieur à hn1
 	Les espaces mémoire de hn et hn1 doivent exister
 
-	Le résultat de la fonction se trouve dans la valeur pointée par hn
+	Le résultat de la fonction se trouve dans la matrice hn
 */
-void remplirH(ptrMatrice_t hn, ptrMatrice_t hn1) {
-	int hnT = hn->taille;
-	int hn1T = hn1->taille;
-
-	// Copie hn1 au NORD-OUEST de hn
-	for(int i = 0; i < hn1T; i++) {
-		for(int j = 0; j < hn1T; j++) {
-			hn->tab[i][j] = hn1->tab[i][j];
-		}
-	}
-	// SUD-OUEST
-	for(int i = hn1T; i < hnT; i++) {
-		for(int j = 0; j < hn1T; j++) {
-			hn->tab[i][j] = hn1->tab[i-hn1T][j];
-		}
-	}
-	// NORD-EST
-	for(int i = 0; i < hn1T; i++) {
-		for(int j = hn1T; j < hnT; j++) {
-			hn->tab[i][j] = hn1->tab[i][j-hn1T];
-		}
-	}
+void remplirH(ptrMatrice_t hn, ptrMatrice_t hn1);
 
 
-	// Écrase hn1 par -hn1		==> hn1 = -hn1
-	for(int i = 0; i < hn1T; i++)
-		for(int j = 0; j < hn1T; j++)
-			hn1->tab[i][j] *= -1;
+/*
+	Recherche la maximum (positif pu négatif) d'un vecteur
+
+	Le résultat de la fonction est la valeur abcolue de ce max
+*/
+int rechercherMaxSignal(ptrVecteur_t signal);
 
 
-	// Copie au SUD-EST de hn hn1 (qui est devenue -hn1)
-	for(int i = hn1T; i < hnT; i++) {
-		for(int j = hn1T; j < hnT; j++) {
-			hn->tab[i][j] = hn1->tab[i-hn1T][j-hn1T];
-		}
-	}
+
+ptrVecteur_t canalIdeal(ptrVecteur_t signal) {
+	return signal;
 }
-
-
-ptrMatrice_t genererHadamard(int rang) {
-	ptrMatrice_t hn;
-
-	// Initialise hn à [1] : matrice de Hadamard de rang 0
-	hn = allouerMatrice(1);
-	hn->tab[0][0] = 1;
-	if(rang == 1)
-		return hn;	//Retourne H0 si 1 seul utilisateur
-
-	// Matrice de Hadamard de rang n+1
-	ptrMatrice_t hn1;
-
-
-	// Générer les matrices successives de 1 à n	;	 n étant la premiere puissance de 2 >= rang
-	int i = 1;
-	do {
-		i *= 2;
-
-		// Créé un matrice de rang n+1
-		hn1 = allouerMatrice(i);
-		// Remplie matrice de Hadamard de rang n+1 avec matrice de rang n,
-		remplirH(hn1, hn);
-
-		// Matrice Hn devient Hn+1
-		detruireMatrice(&hn);
-		hn = hn1;
-	} while( i < rang );
-
-	return hn1;
-}
-
-
-
 
 
 ptrVecteur_t codage(int nbUtilisateurs) {
@@ -121,7 +39,8 @@ ptrVecteur_t codage(int nbUtilisateurs) {
 
 	char str[128];
 	sprintf(str, "Je suis l'utilisateur %d !", nbUtilisateurs);
-	//si 3 utilisatateur : utilisateur 3 envoie le message "3" et est associé au 3eme code d'étalement de la matrice de H (ligne d'indice 2)
+
+	//si 3 utilisatateur : utilisateur 3 envoie le message "3" et est associé au 3eme code d'étalement (canal) de la matrice de H (ligne d'indice 2)
 	codeEtalement = etalement(str, nbUtilisateurs-1, matrice);
 
 	while(--nbUtilisateurs) {
@@ -135,16 +54,52 @@ ptrVecteur_t codage(int nbUtilisateurs) {
 		detruireVecteur(&b);
 	}
 
-	detruireMatrice(&matrice);
+	// detruireMatrice(&matrice);
 
 	return codeEtalement;
 }
 
 
+void decodage(ptrVecteur_t signal) {
+	int max = rechercherMaxSignal(signal);
 
+	ptrMatrice_t matrice = genererHadamard(max);
+
+	ptrVecteur_t tabBin = allouerVecteur(signal->taille / matrice->taille);
+
+	int codeEtal = matrice->taille-1;
+	while(codeEtal >= 0) {
+
+			int bit = 0;
+			int indiceSignal = 0, indiceTabBin = 0;
+			while(indiceSignal < signal->taille) {
+				for(int indiceH = 0; indiceH < matrice->taille; indiceH++, indiceSignal++) {
+					bit += signal->tab[indiceSignal] * matrice->tab[codeEtal][indiceH];
+				}
+				bit /= matrice->taille;
+				tabBin->tab[indiceTabBin] = (bit +1) / 2;	//Convertie -1 / 1 => 0 / 1		affecte dans tabBin
+				indiceTabBin++;
+				bit = 0;
+			}
+
+			char str[128];
+			tabBinToStr(str, tabBin);
+			printf("Chaîne associée à l'utilisateur %d : \"%s\"\n", codeEtal+1, str);
+
+		codeEtal--;
+	}
+
+	detruireVecteur(&tabBin);
+	// detruireMatrice(&matrice);
+}
 
 
 ptrVecteur_t etalement(char * str, const int numUtilisateur, const ptrMatrice_t matrice) {
+	if(numUtilisateur > matrice->taille && numUtilisateur >= 0) {
+		printf("ERREUR, le canal (%d) pour la génération du code d'étalement n'est pas correcte [0;%d]\n !", numUtilisateur, matrice->taille);
+		return NULL;
+	}
+
 	ptrVecteur_t tabBin = strToTabBin(str);
 
 	ptrVecteur_t codeEtal = allouerVecteur(tabBin->taille * matrice->taille);
@@ -186,14 +141,37 @@ ptrVecteur_t etalement(char * str, const int numUtilisateur, const ptrMatrice_t 
 }
 
 
+ptrMatrice_t genererHadamard(int rang) {
+	ptrMatrice_t hn;
+
+	// Initialise hn à [1] : matrice de Hadamard de rang 0
+	hn = allouerMatrice(1);
+	hn->tab[0][0] = 1;
+	if(rang == 1)
+		return hn;	//Retourne H0 si 1 seul utilisateur
+
+	// Matrice de Hadamard de rang n+1
+	ptrMatrice_t hn1;
 
 
+	// Générer les matrices successives de 1 à n	;	 n étant la premiere puissance de 2 >= rang
+	int i = 1;
+	do {
+		i *= 2;
 
-ptrVecteur_t canalIdeal(ptrVecteur_t signal) {
-	return signal;
+		// Créé un matrice de rang n+1
+		hn1 = allouerMatrice(i);
+		// Remplie matrice de Hadamard de rang n+1 avec matrice de rang n,
+		remplirH(hn1, hn);
+
+		// Matrice Hn devient Hn+1
+		detruireMatrice(&hn);
+		printMatrice(hn);
+		hn = hn1;
+	} while( i < rang );
+
+	return hn1;
 }
-
-
 
 
 int rechercherMaxSignal(ptrVecteur_t signal) {
@@ -207,41 +185,44 @@ int rechercherMaxSignal(ptrVecteur_t signal) {
 	return max;
 }
 
-void decodage(ptrVecteur_t signal) {
-	int max = rechercherMaxSignal(signal);
 
-	ptrMatrice_t matrice = genererHadamard(max);
+void remplirH(ptrMatrice_t hn, ptrMatrice_t hn1) {
+	int hnT = hn->taille;
+	int hn1T = hn1->taille;
 
-	ptrVecteur_t tabBin = allouerVecteur(signal->taille / matrice->taille);
-
-	int codeEtal = matrice->taille-1;
-	while(codeEtal >= 0) {
-
-			int bit = 0;
-			int indiceSignal = 0, indiceTabBin = 0;
-			while(indiceSignal < signal->taille) {
-				for(int indiceH = 0; indiceH < matrice->taille; indiceH++, indiceSignal++) {
-					bit += signal->tab[indiceSignal] * matrice->tab[codeEtal][indiceH];
-				}
-				bit /= matrice->taille;
-				tabBin->tab[indiceTabBin] = (bit +1) / 2;	//Convertie -1 / 1 => 0 / 1		affecte dans tabBin
-				indiceTabBin++;
-				bit = 0;
-			}
-
-			char str[128];
-			tabBinToStr(str, tabBin);
-			printf("Chaîne associée à l'utilisateur %d : \"%s\"\n", codeEtal+1, str);
-
-		codeEtal--;
+	// Copie hn1 au NORD-OUEST de hn
+	for(int i = 0; i < hn1T; i++) {
+		for(int j = 0; j < hn1T; j++) {
+			hn->tab[i][j] = hn1->tab[i][j];
+		}
+	}
+	// SUD-OUEST
+	for(int i = hn1T; i < hnT; i++) {
+		for(int j = 0; j < hn1T; j++) {
+			hn->tab[i][j] = hn1->tab[i-hn1T][j];
+		}
+	}
+	// NORD-EST
+	for(int i = 0; i < hn1T; i++) {
+		for(int j = hn1T; j < hnT; j++) {
+			hn->tab[i][j] = hn1->tab[i][j-hn1T];
+		}
 	}
 
-	detruireVecteur(&tabBin);
-	detruireMatrice(&matrice);
+
+	// Écrase hn1 par -hn1		==> hn1 = -hn1
+	for(int i = 0; i < hn1T; i++)
+		for(int j = 0; j < hn1T; j++)
+			hn1->tab[i][j] *= -1;
+
+
+	// Copie au SUD-EST de hn hn1 (qui est devenue -hn1)
+	for(int i = hn1T; i < hnT; i++) {
+		for(int j = hn1T; j < hnT; j++) {
+			hn->tab[i][j] = hn1->tab[i-hn1T][j-hn1T];
+		}
+	}
 }
-
-
-
 
 
 ptrVecteur_t strToTabBin(char * str) {

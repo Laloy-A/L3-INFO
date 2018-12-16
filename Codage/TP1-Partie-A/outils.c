@@ -3,7 +3,6 @@
 #include "outils.h"
 
 
-
 ptrMatrice_t allouerMatrice(int n) {
 	ptrMatrice_t mat = malloc(sizeof(*mat));
 
@@ -16,6 +15,7 @@ ptrMatrice_t allouerMatrice(int n) {
 	return mat;
 }
 
+
 ptrVecteur_t allouerVecteur(int taille) {
 	ptrVecteur_t v = malloc(sizeof(*v));
 	v->taille = taille;
@@ -25,13 +25,10 @@ ptrVecteur_t allouerVecteur(int taille) {
 }
 
 
-
-
 void detruireVecteur(ptrVecteur_t * v) {
 	free((*v)->tab);
 	free(*v);
 }
-
 
 
 void printMatrice(ptrMatrice_t mat){
@@ -43,12 +40,14 @@ void printMatrice(ptrMatrice_t mat){
 	}
 }
 
+
 void printVecteur(ptrVecteur_t v) {
 	printf("Vecteur (taille = %d) : ", v->taille);
 	for(int i = 0; i < v->taille; i++) {
 		printf(" %2d ", v->tab[i]);
 	}
 }
+
 
 ptrVecteur_t sommerVecteur(ptrVecteur_t a, ptrVecteur_t b) {
 	ptrVecteur_t rtn = allouerVecteur(MAX(a->taille, b->taille));	//nouveau vecteur

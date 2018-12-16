@@ -2,6 +2,7 @@
 #define OUTILS_H
 
 #define MAX(a,b)	a > b ? a : b
+#define valeurAbsolue(x) fabs((double)x)
 
 
 /*
@@ -74,8 +75,12 @@ void printMatrice(ptrMatrice_t);
 void printVecteur(ptrVecteur_t);
 
 
+
 /*
 	Retourne un nouveau vecteur qui est la somme un à un des elements des 2 vecteurs
+
+	Alloue l'espace mémoire pour stocker le retoure de la fonction
+	Les 2 pointeurs passés en parametre ne sont pas modifiés
 
 	Exemple :
 	0 1 0 1 2
