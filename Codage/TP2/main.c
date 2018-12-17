@@ -10,7 +10,16 @@ int main(/*int argc, char const *argv[]*/) {
 	polynomeGenerateur->tab[0] = 5;
 	polynomeGenerateur->tab[1] = 2;
 
-	creerCodeLongMax(polynomeGenerateur);
+	ptrCodeLongMax_t lm = creerCodeLongMax(polynomeGenerateur);
+
+	printlnCodeLongMax(lm);
+
+	for(int i = 0; i < 10; i++) {
+
+		tick(lm);
+
+		printlnCodeLongMax(lm);
+	}
 
 	return 0;
 }

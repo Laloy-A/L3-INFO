@@ -8,12 +8,22 @@
 
 
 struct codeLongueurMax {
+	int taille;	//nb de registres
 	char * registres;
-	ptrVecteur_t polynome;
+	struct vecteur polynome;
 };
+typedef struct codeLongueurMax * ptrCodeLongMax_t;
 
 
+ptrCodeLongMax_t creerCodeLongMax(ptrVecteur_t);
 
-ptrVecteur_t creerCodeLongMax(ptrVecteur_t);
+void printCodeLongMax(ptrCodeLongMax_t lm);
+
+void printlnCodeLongMax(ptrCodeLongMax_t lm);
+
+/*
+	Tick d'horloge, decale les registres
+*/
+void tick(ptrCodeLongMax_t lm);
 
 #endif

@@ -23,7 +23,7 @@ typedef struct matrice * ptrMatrice_t;
 */
 struct vecteur {
 	int taille;
-	char * tab;
+	int * tab;
 };
 typedef struct vecteur * ptrVecteur_t;
 
