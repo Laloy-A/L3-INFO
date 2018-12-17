@@ -83,6 +83,17 @@ ptrCodeLongMax_t creerCodeLongMax(char * polynomeGenerateur, char * initialisati
 	return lm;
 }
 
+void genererSequence(ptrCodeLongMax_t lm, void * var, size_t longeur) {
+	char * c = var;
+	for(size_t i = 0; i < longeur; i++) {
+		for(int j = 0; j < 8; j++) {
+			*c = (*c << i) + lm->registres[0];
+			tick(lm);
+		}
+		c++;
+	}
+}
+
 void tick(ptrCodeLongMax_t lm) {
 	int var = lm->registres[lm->polynome->tab[0] -1];
 	//parcours le polynome et calcul la prochaine valeur à entrer

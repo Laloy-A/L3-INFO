@@ -37,6 +37,14 @@ void detruireCodeLongMax(ptrCodeLongMax_t *);
 
 
 /*
+	Genere une sequence pseudo aléatoire de longueur donnée (longueur en octet)
+
+	Résultat dans var
+*/
+void genererSequence(ptrCodeLongMax_t lm, void * var, size_t longeur);
+
+
+/*
 	Affiche le polynome générateur et les registres du code
 */
 void printCodeLongMax(ptrCodeLongMax_t lm);
