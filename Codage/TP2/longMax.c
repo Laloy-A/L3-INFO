@@ -27,39 +27,43 @@ void printlnCodeLongMax(ptrCodeLongMax_t lm) {
 
 
 /*
-	Convertie la chaine de caracteres decrivant un polynome générateur en un vecteur contenant ce meme polynome
+	Convertie la chaine de caracteres en un vecteur
+
+	Seul les nombres pris en compte.
+	Les nombres doivent etre différenciable : usage d'un séparateur " " "," ";"...
 */
 ptrVecteur_t charVersVecteur(char * str) {
 	//on ne sait pas à l'avance le nombre d'element que va contenir le vecteur, donc creer vecteur de meme taille que str
-	ptrVecteur_t polynome = allouerVecteur(strlen(str));
+	ptrVecteur_t vecteur = allouerVecteur(strlen(str));
 
 	int var;
 	int indiceVecteur = 0;
 	while(*str) {
 		if( *str >= '0' && *str <= '9' ) {
 			sscanf(str, "%d", &var);
-			// printf("Entier = %d\n", var);
-			polynome->tab[indiceVecteur] = var;
+			vecteur->tab[indiceVecteur] = var;
 			indiceVecteur++;
 			while( *str >= '0' && *str <= '9' )	str++;
+			str--;
 		}
 
 		str++;
 	}
 
 	//on sait maintenant quel est la taille qu'il nous faut pour le vecteur (info stockée dans indiceVecteur)
-	ptrVecteur_t nouveauPoly = allouerVecteur(indiceVecteur);
+	ptrVecteur_t nouveauVec = allouerVecteur(indiceVecteur);
 	int indiceNouvVect = 0;
 	for(int i = 0; i < indiceVecteur; i++, indiceNouvVect++)
-		nouveauPoly->tab[indiceNouvVect] = polynome->tab[i];
+		nouveauVec->tab[indiceNouvVect] = vecteur->tab[i];
 
-	detruireVecteur(&polynome);
+	detruireVecteur(&vecteur);
 
-	return nouveauPoly;
+	return nouveauVec;
 }
 
-ptrCodeLongMax_t creerCodeLongMax(char * polynomeGenerateur) {
+ptrCodeLongMax_t creerCodeLongMax(char * polynomeGenerateur, char * initialisation) {
 	ptrVecteur_t generateur = charVersVecteur(polynomeGenerateur);
+	ptrVecteur_t seqInit = charVersVecteur(initialisation);
 
 	ptrCodeLongMax_t lm;
 	if( !(lm = malloc(sizeof(*lm))) ) {
@@ -74,7 +78,7 @@ ptrCodeLongMax_t creerCodeLongMax(char * polynomeGenerateur) {
 		return lm;
 	}
 	for(int i = 0; i < lm->taille; i++)
-		lm->registres[i] = 1;
+		lm->registres[i] = seqInit->tab[i % seqInit->taille];
 
 	return lm;
 }

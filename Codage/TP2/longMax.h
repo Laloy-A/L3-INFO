@@ -22,8 +22,12 @@ typedef struct codeLongueurMax * ptrCodeLongMax_t;
 
 	Il faut pour cela spécifier le polynome générateur (chaine de caracteres)
 	Le polynome générateur sera de la forme : [5, 3, 2], par exemple
+
+	init sera la sequence utilisée pout initialiser le codeur : les valeurs présentes dans les registres
+	init = "1"	==> la sequence d'initialisation sera une suite de 1
+	init = "0 1"==> 									  suite de 0 1
 */
-ptrCodeLongMax_t creerCodeLongMax(char *);
+ptrCodeLongMax_t creerCodeLongMax(char * poly, char * init);
 
 
 /*
