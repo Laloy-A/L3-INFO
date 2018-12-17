@@ -1,25 +1,25 @@
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
+
 #include "outils.h"
 #include "longMax.h"
 
+void poly(char *);
 
 int main(/*int argc, char const *argv[]*/) {
 
-	ptrVecteur_t polynomeGenerateur = allouerVecteur(2);
-	polynomeGenerateur->tab[0] = 5;
-	polynomeGenerateur->tab[1] = 2;
-
-	ptrCodeLongMax_t lm = creerCodeLongMax(polynomeGenerateur);
+	ptrCodeLongMax_t lm = creerCodeLongMax("[5, 2]");
 
 	printlnCodeLongMax(lm);
-
+	
 	for(int i = 0; i < 10; i++) {
 
 		tick(lm);
 
 		printlnCodeLongMax(lm);
 	}
+
+	detruireCodeLongMax(&lm);
 
 	return 0;
 }
