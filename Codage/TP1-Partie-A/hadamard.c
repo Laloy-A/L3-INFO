@@ -196,6 +196,11 @@ int rechercherMaxSignal(ptrVecteur_t signal) {
 
 
 void remplirH(ptrMatrice_t hn, ptrMatrice_t hn1) {
+	if(hn->taille != 2 * hn1->taille) {
+		printf("ERREUR remplirH, hn taille != 2 * hn1 taille\n");
+		return;
+	}
+
 	int hnT = hn->taille;
 	int hn1T = hn1->taille;
 

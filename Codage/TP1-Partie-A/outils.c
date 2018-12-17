@@ -4,22 +4,39 @@
 
 
 ptrMatrice_t allouerMatrice(int n) {
-	ptrMatrice_t m = malloc(sizeof(*m));
+	ptrMatrice_t m;
+	if( !(m = malloc(sizeof(*m))) ) {
+		printf("ERREUR allocation matrice\n");
+		return NULL;
+	}
 
 	m->taille = n;
 
-	m->tab = malloc(sizeof(*m->tab) * n);
+	if( !(m->tab = malloc(sizeof(*m->tab) * n)) ) {
+		printf("ERREUR allocation matrice tab\n");
+		return m;
+	}
 	for(int i = 0; i < m->taille; i++)
-		m->tab[i] = calloc(n,  sizeof(**(m->tab)));
+		if( !(m->tab[i] = calloc(n,  sizeof(**(m->tab)))) ) {
+			printf("ERREUR allocation matrice tab[%d]\n", i);
+			return m;
+		}
 
 	return m;
 }
 
 
 ptrVecteur_t allouerVecteur(int taille) {
-	ptrVecteur_t v = malloc(sizeof(*v));
+	ptrVecteur_t v;
+	if( !(v = malloc(sizeof(*v))) ) {
+		printf("ERREUR allocation vecteur\n");
+		return NULL;
+	}
 	v->taille = taille;
-	v->tab = calloc(taille, sizeof(*v->tab));
+	if( !(v->tab = calloc(taille, sizeof(*v->tab))) ) {
+		printf("ERREUR allocation vecteur tab\n");
+		return v;
+	}
 
 	return v;
 }
