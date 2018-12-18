@@ -1,35 +1,11 @@
 #include "longMax.h"
 
 
-/*
-	Affichage formaté d'un polynome générateur
-*/
-void printPolynome(ptrVecteur_t poly) {
-	printf("[");
-	for(int i = 0; i < poly->taille; i++) {
-		printf(i+1 < poly->taille ? "%d, " : "%d", poly->tab[i]);
-	}
-	printf("]");
-}
-
-void printCodeLongMax(ptrCodeLongMax_t lm) {
-	printf("Polynome : ");	printPolynome(lm->polynome);
-	printf("\n");
-	for(int i = 0; i < lm->taille; i++)
-		printf("|%d", lm->registres[i]);
-	printf("|");
-}
-
-void printlnCodeLongMax(ptrCodeLongMax_t lm) {
-	printCodeLongMax(lm);
-	printf("\n");
-}
-
 
 /*
 	Convertie la chaine de caracteres en un vecteur
 
-	Seul les nombres pris en compte.
+	Seul les nombres sont pris en compte.
 	Les nombres doivent etre différenciable : usage d'un séparateur " " "," ";"...
 */
 ptrVecteur_t charVersVecteur(char * str) {
@@ -61,55 +37,92 @@ ptrVecteur_t charVersVecteur(char * str) {
 	return nouveauVec;
 }
 
-ptrCodeLongMax_t creerCodeLongMax(char * polynomeGenerateur, char * initialisation) {
-	ptrVecteur_t generateur = charVersVecteur(polynomeGenerateur);
-	ptrVecteur_t seqInit = charVersVecteur(initialisation);
 
+ptrCodeLongMax_t creerCodeLongMax(char * polynomeGenerateur, char * initialisation) {
+	ptrVecteur_t seqInit = charVersVecteur(initialisation);
 	ptrCodeLongMax_t lm;
+
 	if( !(lm = malloc(sizeof(*lm))) ) {
 		printf("ERREUR allocation code longueur max\n");
 		return NULL;
 	}
-	lm->taille = generateur->tab[0];	//le 1er element du polynome generateur renseigne sur la taille des registres
-	lm->polynome = generateur;
-	// printf("lm->polynome = *generateur;  ==> ");	printPolynome(&lm->polynome);	printf("\n");
-	if( !(lm->registres = malloc(sizeof(*lm->registres) * lm->taille)) ) {
-		printf("ERREUR allocation code longueur max registres\n");
-		return lm;
-	}
-	for(int i = 0; i < lm->taille; i++)
-		lm->registres[i] = seqInit->tab[i % seqInit->taille];
+
+	lm->polynome = charVersVecteur(polynomeGenerateur);
+	lm->registres = allouerVecteur(lm->polynome->tab[0]);	//le 1er element du polynome generateur renseigne sur la taille des registres
+
+	//affectue la valeur d'initialisation aux registres
+	for(int i = 0; i < lm->registres->taille; i++)	//parcours registres
+		lm->registres->tab[i] = seqInit->tab[i % seqInit->taille];	//modulo s'explique car il se peut que la sequence d'init soit de longeur < aux registres
+
+	detruireVecteur(&seqInit);
 
 	return lm;
 }
+
+
+void detruireCodeLongMax(ptrCodeLongMax_t * lm) {
+	detruireVecteur(&(*lm)->polynome);
+	detruireVecteur(&(*lm)->registres);
+	free(*lm);
+}
+
 
 void genererSequence(ptrCodeLongMax_t lm, void * var, size_t longeur) {
 	char * c = var;
 	for(size_t i = 0; i < longeur; i++) {
 		for(int j = 0; j < 8; j++) {
-			*c = (*c << i) + lm->registres[0];
+			*c = (*c << i) + lm->registres->tab[0];
 			tick(lm);
 		}
 		c++;
 	}
 }
 
+
 void tick(ptrCodeLongMax_t lm) {
-	int var = lm->registres[lm->polynome->tab[0] -1];
+	//calcul la prochaine valeur à entrer, initialiser à la valeur de sortie
+	int var = lm->registres->tab[lm->polynome->tab[0] -1];
+
 	//parcours le polynome et calcul la prochaine valeur à entrer
 	//XOR sur valeurs indiquées par celui ci
+	//la 1ere valeur indiquée par le polynome n'est pas pris en compte dans la boucle, car valeur d'initialisation
 	for(int i = 1; i < lm->polynome->taille; i++) {
-		var = var ^ lm->registres[lm->polynome->tab[i] -1];
+		var = var ^ lm->registres->tab[lm->polynome->tab[i] -1];
 	}
 
-	for(int i = lm->taille -1; i > 0; i--) {
-		lm->registres[i] = lm->registres[i-1];
+	//decale les registres
+	for(int i = lm->registres->taille -1; i > 0; i--) {
+		lm->registres->tab[i] = lm->registres->tab[i-1];
 	}
-	lm->registres[0] = var;	//nouvelle valeur entrante
+
+	//fait entrer la nouvelle valeur qui a été calculée
+	lm->registres->tab[0] = var;
 }
 
-void detruireCodeLongMax(ptrCodeLongMax_t * lm) {
-	detruireVecteur(&(*lm)->polynome);
-	free((*lm)->registres);
-	free(*lm);
+
+
+/*
+	Affichage formaté d'un polynome générateur
+*/
+void printPolynome(ptrVecteur_t poly) {
+	printf("[");
+	for(int i = 0; i < poly->taille; i++) {
+		printf(i+1 < poly->taille ? "%d, " : "%d", poly->tab[i]);
+	}
+	printf("]");
+}
+
+
+void printCodeLongMax(ptrCodeLongMax_t lm) {
+	printf("Polynome : ");	printPolynome(lm->polynome);
+	printf("\n");
+	for(int i = 0; i < lm->registres->taille; i++)
+		printf("|%d", lm->registres->tab[i]);
+	printf("|");
+}
+
+
+void printlnCodeLongMax(ptrCodeLongMax_t lm) {
+	printCodeLongMax(lm);
+	printf("\n");
 }

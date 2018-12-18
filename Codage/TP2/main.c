@@ -10,7 +10,7 @@ int main(/*int argc, char const *argv[]*/) {
 
 	ptrCodeLongMax_t lm = creerCodeLongMax("[16, 14, 13, 11]", "1 0 1");
 
-	// printlnCodeLongMax(lm);
+	printlnCodeLongMax(lm);
 
 	int val;
 	for(int i = 0; i < 20; i++) {

@@ -10,22 +10,24 @@
 
 
 struct codeLongueurMax {
-	int taille;	//nb de registres
-	char * registres;
+	ptrVecteur_t registres;
 	ptrVecteur_t polynome;
 };
 typedef struct codeLongueurMax * ptrCodeLongMax_t;
 
 
 /*
-	Créé/Alloue et retourne un code à longueur maximale
+	Créé/Alloue et retourne un codeur à longueur maximale
 
 	Il faut pour cela spécifier le polynome générateur (chaine de caracteres)
 	Le polynome générateur sera de la forme : [5, 3, 2], par exemple
+	==> les nombres doivent etre differenciable : usage de séparateurs " "  ","  ";"  ...
 
-	init sera la sequence utilisée pout initialiser le codeur : les valeurs présentes dans les registres
-	init = "1"	==> la sequence d'initialisation sera une suite de 1
-	init = "0 1"==> 									  suite de 0 1
+	init est la sequence d'initialisation du codeur, les chiffres doivent etre différenciable
+	Il est préférable d'utilisée d'initialiser le codeur avec des 0 et 1.
+	exemple :
+		init = "1" ou "1 1 1 1 1"	==> les registres seront tous initialisés à 1
+		==> si la sequence est un pattern qui se repete, pas besoin de la décrire entierement (càd : de la taille des registres)
 */
 ptrCodeLongMax_t creerCodeLongMax(char * poly, char * init);
 
@@ -37,7 +39,7 @@ void detruireCodeLongMax(ptrCodeLongMax_t *);
 
 
 /*
-	Genere une sequence pseudo aléatoire de longueur donnée (longueur en octet)
+	Genere une sequence pseudo aléatoire de longueur donnée (en octet)
 
 	Résultat dans var
 */
@@ -45,19 +47,19 @@ void genererSequence(ptrCodeLongMax_t lm, void * var, size_t longeur);
 
 
 /*
-	Affiche le polynome générateur et les registres du code
+	Affiche le polynome générateur et les registres du codeur
 */
 void printCodeLongMax(ptrCodeLongMax_t lm);
 
 
 /*
-	Meme chose que printCodeLongMax mais retoure à la ligne
+	printCodeLongMax avec retoure à la ligne
 */
 void printlnCodeLongMax(ptrCodeLongMax_t lm);
 
 
 /*
-	Tick d'horloge, decale les registres
+	Tick d'horloge, decale les registres du codeur
 	La nouvelle valeur entrante est le XOR des registrer spédifiés dans le polynome
 */
 void tick(ptrCodeLongMax_t lm);
