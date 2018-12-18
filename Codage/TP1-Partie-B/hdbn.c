@@ -12,10 +12,12 @@ struct hdbn {
 	int n;				// valeur du HDBn -> ex: HDB2 ; HDB3 ; etc
 };
 
+/* Permet d'initialiser la valeur de n */
 void initN(struct hdbn * hdb, int n){
 	hdb->n = n;
 }
 
+/* Permet de passer du message codé (ternaire) à deux messages codés Positif et Négatif (binaire) */
 void initCodePN(struct hdbn * hdb, int msgCode[N]){
 
 	int i;
@@ -37,16 +39,21 @@ void initCodePN(struct hdbn * hdb, int msgCode[N]){
 }
 
 
-/* Permet d'afficher le message binaire */
+/* Permet d'afficher le message */
 void printMsgBinaire(int code[N]){
 
 	printf("\n");
 	for(int i=0; i<N; i++){
-		printf("%i ", code[i]);
+		if(code[i] == -1){
+			printf("%i ", code[i]);
+		}
+		else{
+			printf(" %i ", code[i]);
+		}
 	}
 }
 
-/*  */
+/* Calcul permettant de déterminé la valeur du message code par rapport au dernier viol et au dernier "un" */
 void calcul(struct hdbn * hdb, int i, int msgCode[N]){
 
 	int j;
@@ -155,7 +162,7 @@ int codage_hdb(struct hdbn * hdb, int code[N]){
 	return 0;
 }
 
-
+/* Permet de décoder le message à partir du code Positif et Négatif */
 int decodage_hdb(struct hdbn * hdb){
 
 	int i;
