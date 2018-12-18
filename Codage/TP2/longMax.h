@@ -17,7 +17,7 @@ typedef struct codeLongueurMax * ptrCodeLongMax_t;
 
 
 /*
-	Créé/Alloue et retourne un codeur à longueur maximale
+	Créé/Alloue, initialise et retourne un codeur à longueur maximale
 
 	Il faut pour cela spécifier le polynome générateur (chaine de caracteres)
 	Le polynome générateur sera de la forme : [5, 3, 2], par exemple
