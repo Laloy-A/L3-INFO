@@ -4,14 +4,12 @@ LDFLAGS =
 
 SRC = $(wildcard *.c)
 OBJS = $(SRC:.c=.o)
-AOUT = main
+AOUT = prog
 
 all : $(AOUT)
 
-main : $(OBJS)
+prog : $(OBJS)
 	$(CC) $(LDFLAGS) -o $@ $^ -lm
-main.o : main.c
-	$(CC) $(CFLAGS) -o $@ -c $<
 clean :
 	@rm *.o
 cleaner : clean

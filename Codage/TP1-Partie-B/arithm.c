@@ -69,7 +69,7 @@ void inventorier(char * seq, struct inventaire * inv) {
 
 
 /* Permet d'associer l'intervalle qui correspond à chacune des lettres */
-void init_intervalle(struct inventaire * inv, struct lettreIntervalle * letInt){
+void initIntervalle(struct inventaire * inv, struct lettreIntervalle * letInt){
 
 	int i;
 	long double borne = 0;
@@ -166,7 +166,7 @@ long double code_art(char * seq) {
 
 	printInventaire(&inventaire);
 
-	init_intervalle(&inventaire, &letInt);
+	initIntervalle(&inventaire, &letInt);
 	printIntervalle(&letInt);
 	codage(&letInt, &inventaire, &msg, seq);
 	decodage(&letInt, &msg, &inventaire);

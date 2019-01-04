@@ -43,7 +43,7 @@ void detruireCodeLongMax(ptrCodeLongMax_t *);
 
 	Résultat dans var
 */
-void genererSequence(ptrCodeLongMax_t lm, void * var, size_t longeur);
+ptrVecteur_t genererSequence(ptrCodeLongMax_t lm, size_t longeur);
 
 
 /*

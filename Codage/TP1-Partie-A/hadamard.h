@@ -22,7 +22,7 @@ ptrVecteur_t canalIdeal(ptrVecteur_t);
 
 	Le signal envoyé est contenu dans le retoure de la fonction dans une structure de type vecteur
 */
-ptrVecteur_t codage(int n);
+ptrVecteur_t codage(int n, bool verbose);
 
 
 /*
@@ -45,7 +45,7 @@ void decodage(ptrVecteur_t);
 
 	Retourne un pointeur sur le vecteur
 */
-ptrVecteur_t etalement(char *, const int, const ptrMatrice_t);
+ptrVecteur_t etalement(char *, const int, const ptrMatrice_t, bool verbose);
 
 
 /*

@@ -67,15 +67,15 @@ void detruireCodeLongMax(ptrCodeLongMax_t * lm) {
 }
 
 
-void genererSequence(ptrCodeLongMax_t lm, void * var, size_t longeur) {
-	char * c = var;
+ptrVecteur_t genererSequence(ptrCodeLongMax_t lm, size_t longeur) {
+	ptrVecteur_t vec = allouerVecteur(longeur);
+
 	for(size_t i = 0; i < longeur; i++) {
-		for(int j = 0; j < 8; j++) {
-			*c = (*c << i) + lm->registres->tab[0];
-			tick(lm);
-		}
-		c++;
+		vec->tab[i] = lm->registres->tab[lm->registres->taille -1];	//valeur de sortie des registres ==> dernier registre
+		tick(lm);
 	}
+
+	return vec;
 }
 
 

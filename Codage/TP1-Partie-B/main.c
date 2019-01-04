@@ -21,7 +21,7 @@ int main() {
 
 		/* Traitement du choix de l'utilisateur */
 		switch(choix){
-			case 1 : code_art("BILL GATES est trop cool"); break;
+			case 1 : code_art("BILL GATES"); break;
 			case 2:  code_hdbn(code, choix); break;
 			case 3:  code_hdbn(code, choix); break;
 			case 4:  code_hdbn(code, choix); break;

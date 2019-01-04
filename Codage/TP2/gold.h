@@ -11,9 +11,12 @@ struct gold {
 
 
 /*
-	initialise les codeurs à longeur maximale
+	Initialise les codeurs à longeur maximale
+
+	gold ==> la structure à initialiser
+	polynome ==> le polynome primitif pour l'initialisation des codeur a longeur max
 */
-void initialiserGold(struct gold *);
+void initialiserGold(struct gold * gold, char * polynome);
 
 
 /*
@@ -21,6 +24,6 @@ void initialiserGold(struct gold *);
 
 	Retourne nombre le nombre
 */
-int genererGold(struct gold);
+ptrVecteur_t genererGold(struct gold, size_t);
 
 #endif

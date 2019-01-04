@@ -4,33 +4,54 @@
 #include "outils.h"
 #include "longMax.h"
 #include "gold.h"
+#include "jpl.h"
 
 void poly(char *);
 
 int main(/*int argc, char const *argv[]*/) {
 
-	// ptrCodeLongMax_t lm = creerCodeLongMax("[16, 14, 13, 11]", "1 0 1");
+	// ptrCodeLongMax_t lm = creerCodeLongMax("[5, 2]", "1");
 	//
 	// printlnCodeLongMax(lm);
 	//
-	// int val;
-	// for(int i = 0; i < 20; i++) {
-	// 	genererSequence(lm, &val, sizeof(val));
-	// 	printf("%d\n", val);
+	// ptrVecteur_t vec;
+	// for(int i = 0; i < 1; i++) {
+	// 	vec = genererSequence(lm, 10);
+	// 	printVecteur(vec);
+	// 	printf("\n");
+	// 	detruireVecteur(&vec);
 	// }
 	//
 	// detruireCodeLongMax(&lm);
 
 
 	struct gold gold;
-	initialiserGold(&gold);
+	struct jpl jpl;
+	initialiserGold(&gold, "[16, 14, 13, 11]");
+	initialiserJpl(&jpl);
 
-	for(int i = 0; i < 10; i++) {
-		int n = genererGold(gold);
-		printf("n = %d\n", n);
+	ptrVecteur_t vec, vec2;
+
+	printf("\nCodeur Gold :\n");
+
+	for(int i = 0; i < 8; i++) {
+		vec = genererGold(gold, 16);
+		printVecteur(vec);
+		printf("\n");
+		detruireVecteur(&vec);
 	}
 
+	printf("\nOn passe au codeur JPL :\n");
 
+	for(int i = 0; i < 8; i++) {
+		vec2 = genererJpl(jpl, 651);
+		printf("\ntest6\n");
+		printVecteur(vec2);
+		printf("\ntest7\n");
+		printf("\n");
+		detruireVecteur(&vec2);
+		printf("\ntest8\n");
+	}
 
 
 	return 0;
