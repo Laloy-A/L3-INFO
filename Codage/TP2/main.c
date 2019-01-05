@@ -28,7 +28,7 @@ int main(/*int argc, char const *argv[]*/) {
 	struct gold gold;
 	struct jpl jpl;
 	initialiserGold(&gold, "[16, 14, 13, 11]");
-	initialiserJpl(&jpl);
+	initialiserJpl(&jpl, 3, "[2, 1]", "[3, 1]", "[5, 1]");
 
 	ptrVecteur_t vec, vec2;
 
@@ -36,8 +36,8 @@ int main(/*int argc, char const *argv[]*/) {
 
 	for(int i = 0; i < 8; i++) {
 		vec = genererGold(gold, 16);
-		printVecteur(vec);
-		printf("\n");
+		// printVecteur(vec);
+		// printf("\n");
 		detruireVecteur(&vec);
 	}
 
@@ -45,12 +45,9 @@ int main(/*int argc, char const *argv[]*/) {
 
 	for(int i = 0; i < 8; i++) {
 		vec2 = genererJpl(jpl, 651);
-		printf("\ntest6\n");
 		printVecteur(vec2);
-		printf("\ntest7\n");
 		printf("\n");
 		detruireVecteur(&vec2);
-		printf("\ntest8\n");
 	}
 
 

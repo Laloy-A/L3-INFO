@@ -1,48 +1,98 @@
 #include "jpl.h"
+#include "stdarg.h"
 
-void initialiserJpl(struct jpl * jpl) {
+void initialiserJpl(struct jpl * jpl, int nb, ...) {
+	int i=0;
+	int premierElt, taillePoly;
+	va_list ap;
+	va_start(ap, nb);
+	jpl->nombrePolynome = nb;
+	printf("\n nombre de polynome = %i\n", jpl->nombrePolynome);
+	while(nb > 0){
+		char * polynome;
+		taillePoly = 1;
+		polynome = va_arg(ap, char *);
+		jpl->tab[i].lm = creerCodeLongMax(polynome, "1");
 
-	jpl->lm1 = creerCodeLongMax("[2, 1]", "1");
-	jpl->lm2 = creerCodeLongMax("[3, 1]", "1");
-	jpl->lm3 = creerCodeLongMax("[5, 1]", "1");
+		/* Sert à obtenir la longueur générée par le polynome */
+		premierElt = jpl->tab[i].lm->registres->taille;
+		for(int j=0; j<premierElt; j++){
+			taillePoly = taillePoly*2;
+		}
+		taillePoly--;
 
+
+		jpl->tab[i].longueur = taillePoly;
+		//printf("\nLongueur polynome = %i\n", jpl->tab[i].longueur);
+		nb--;
+		i++;
+	}
+
+	va_end(ap);
 }
 
-int genererJpl(struct jpl jpl, size_t longueur) {
+ptrVecteur_t genererJpl(struct jpl jpl, size_t longueur) {
 	ptrVecteur_t res, res2, v1, v2, v3;
+	size_t j, k;
 
-	v1 = genererSequence(jpl.lm1, 3);
-	v2 = genererSequence(jpl.lm2, 7);
-	v3 = genererSequence(jpl.lm3, 31);
+	// v1 = genererSequence(jpl.tab[0].lm, 3);
+	// v2 = genererSequence(jpl.tab[1].lm, 7);
+	// v3 = genererSequence(jpl.tab[2].lm, 31);
 
-	printf("\ntest1\n");
+	printf("\n--- DEBUT AFFICHAGE VECTEUR ---\n");
+
+	for(int i=0; i<jpl.nombrePolynome; i++){
+		jpl.tab[i].vec = genererSequence(jpl.tab[i].lm, jpl.tab[i].longueur);
+		printVecteur(jpl.tab[i].vec);
+		printf("\n");
+	}
+
+	printf("\n--- FIN AFFICHAGE VECTEUR ---\n");
+
+
 
 	res = allouerVecteur(21);
 	res2 = allouerVecteur(longueur);
 
-	printf("\ntest2\n");
 
-	//res = v1 XOR v2
-	for(size_t i = 0; i < 21; i++)
-		res->tab[i] = v1->tab[i] ^v2->tab[i];
+	j = 0;
+	k = 0;
+	for(size_t i = 0; i < 21; i++){
 
-	printf("\ntest3\n");
-
-	for(size_t i = 0; i < longueur; i++)
-		res2->tab[i] = res->tab[i] ^v3->tab[i];
-
-	printf("\ntest4\n");
-
-	detruireVecteur(&v1);
-	detruireVecteur(&v2);
-	detruireVecteur(&v3);
-
-	printf("\ntest5\n");
-
-	printf("\nValeur taille %i\n", res2->taille);
-	for(int i = 0; i < res2->taille; i++) {
-		printf(" %2d ", res2->tab[i]);
+		if(i%3 == 0){
+			j = 0;
+		}
+		if(i%7 == 0){
+			k = 0;
+		}
+		//printf("\n--- j = %li & k = %li\n", j, k);
+		res->tab[i] = jpl.tab[0].vec->tab[j] ^ jpl.tab[1].vec->tab[k];
+		//printf("\n%i XOR %i = %i\n", v1->tab[j], v2->tab[k], res->tab[i]);
+		j++;
+		k++;
 	}
+
+	j = 0;
+	k = 0;
+	for(size_t i = 0; i < longueur; i++){
+
+		if(i%21 == 0){
+			j = 0;
+		}
+		if(i%31 == 0){
+			k = 0;
+		}
+		//printf("\n--- j = %li & k = %li\n", j, k);
+		res2->tab[i] = res->tab[j] ^ jpl.tab[2].vec->tab[k];
+		//printf("\n%i XOR %i = %i\n", res->tab[j], v3->tab[k], res2->tab[i]);
+		j++;
+		k++;
+	}
+
+
+	detruireVecteur(&jpl.tab[0].vec);
+	detruireVecteur(&jpl.tab[1].vec);
+	detruireVecteur(&jpl.tab[2].vec);
 
 	return res2;
 }

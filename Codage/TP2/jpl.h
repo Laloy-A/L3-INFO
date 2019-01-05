@@ -2,19 +2,22 @@
 #define JPL_H
 
 #include "longMax.h"
-
+#define N	64
 
 struct jpl {
-	ptrCodeLongMax_t lm1;
-	ptrCodeLongMax_t lm2;
-	ptrCodeLongMax_t lm3;
+	int nombrePolynome;
+	struct corps {
+		ptrCodeLongMax_t lm;
+		int longueur;
+		ptrVecteur_t vec;
+	} tab[N];
 };
 
 
 /*
 	initialise les codeurs à longeur maximale
 */
-void initialiserJpl(struct jpl * jpl);
+void initialiserJpl(struct jpl * jpl, int nb, ...);
 
 
 /*
@@ -22,6 +25,6 @@ void initialiserJpl(struct jpl * jpl);
 
 	Retourne nombre le nombre
 */
-int genererJpl(struct jpl, size_t);
+ptrVecteur_t genererJpl(struct jpl, size_t);
 
 #endif

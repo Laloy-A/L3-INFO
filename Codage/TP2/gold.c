@@ -20,7 +20,5 @@ ptrVecteur_t genererGold(struct gold g, size_t longeur) {
 	detruireVecteur(&v1);
 	detruireVecteur(&v2);
 
-	printf("\nValeur taille %i\n", res->taille);
-
 	return res;
 }
