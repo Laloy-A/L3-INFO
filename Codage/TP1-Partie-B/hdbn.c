@@ -154,7 +154,7 @@ int codage_hdb(struct hdbn * hdb, int code[N]){
 
 	initCodePN(hdb, msgCode);
 
-	printf("\ncode Positif");
+	printf("\n\ncode Positif");
 	printMsgBinaire(hdb->codePositif);
 	printf("\ncode Négatif");
 	printMsgBinaire(hdb->codeNegatif);
@@ -183,7 +183,7 @@ int decodage_hdb(struct hdbn * hdb){
 		}
 	}
 
-	printf("\nPassage de P et N au msg codé");
+	printf("\n\nPassage de P et N au msg codé");
 	printMsgBinaire(code);
 
 	for(i=0; i<N; i++){
@@ -201,7 +201,7 @@ int decodage_hdb(struct hdbn * hdb){
 
 	}
 
-	printf("\nMsg décodé");
+	printf("\n\nMsg décodé\n\n");
 	printMsgBinaire(msgDecode);
 
 	return 0;
