@@ -2,6 +2,18 @@
 
 
 /*
+	Niveau de décision lors du decodage de l'information
+
+	Le bit a une valeur positive : arrondi sa valeur à l'entier supérieur.		bit = 0.95	arrondi : bit = 1
+						négative : 						entier inférieur.		bit = -0.95 arrondi : bit = -1
+
+	Si la valeur vaut 0, elle ne sera pas modifiée
+*/
+void niveauDecision(float * bit);
+
+
+
+/*
 	Remplis la matrice hn selon l'algo de Hadamard
 	hn = 	[ hn1	hn1 ]
 			[ hn1  -hn1 ]
@@ -100,11 +112,9 @@ void decodage(ptrVecteur_t signal) {
 				//
 				bit /= matrice->taille;
 
-				//seuil de decision
-				if(bit > 0)
-					bit = (int)ceil(bit);
-				else if(bit < 0)
-					bit = (int)floor(bit);
+
+				niveauDecision(&bit);
+
 
 
 				tabBin->tab[indiceTabBin] = (bit +1) / 2;	//Convertie -1 / 1 => 0 / 1		affecte dans tabBin
@@ -206,6 +216,15 @@ ptrMatrice_t genererHadamard(int rang) {
 	} while( i < rang );
 
 	return hn1;
+}
+
+
+void niveauDecision(float * bit) {
+	// seuil de decision
+	if(*bit > 0)
+		*bit = (int)ceil(*bit);
+	else if(*bit < 0)
+		*bit = (int)floor(*bit);
 }
 
 
