@@ -32,7 +32,7 @@ void initialiserJpl(struct jpl * jpl, int nb, ...) {
 }
 
 ptrVecteur_t genererJpl(struct jpl jpl, size_t longueur) {
-	ptrVecteur_t res, res2, v1, v2, v3;
+	ptrVecteur_t res, res2;
 	size_t j, k;
 
 	// v1 = genererSequence(jpl.tab[0].lm, 3);
