@@ -36,8 +36,8 @@ int main(/*int argc, char const *argv[]*/) {
 
 	for(int i = 0; i < 8; i++) {
 		vec = genererGold(gold, 16);
-		// printVecteur(vec);
-		// printf("\n");
+		printVecteur(vec);
+		printf("\n");
 		detruireVecteur(&vec);
 	}
 
