@@ -40,13 +40,11 @@ ptrVecteur_t genererJpl(struct jpl jpl, size_t longueur) {
 	// v3 = genererSequence(jpl.tab[2].lm, 31);
 
 	// printf("\n--- DEBUT AFFICHAGE VECTEUR ---\n");
-	//
-	// for(int i=0; i<jpl.nombrePolynome; i++){
-	// 	jpl.tab[i].vec = genererSequence(jpl.tab[i].lm, jpl.tab[i].longueur);
-	// 	printVecteur(jpl.tab[i].vec);
-	// 	printf("\n");
-	// }
-	//
+	for(int i=0; i<jpl.nombrePolynome; i++){
+		jpl.tab[i].vec = genererSequence(jpl.tab[i].lm, jpl.tab[i].longueur);
+		// printVecteur(jpl.tab[i].vec);
+		// printf("\n");
+	}
 	// printf("\n--- FIN AFFICHAGE VECTEUR ---\n");
 
 
