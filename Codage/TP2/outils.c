@@ -26,3 +26,12 @@ void printVecteur(ptrVecteur_t tab) {
 		printf(" %2d ", tab->tab[i]);
 	}
 }
+
+
+int vecToInt(ptrVecteur_t vec) {
+	int rtn = 0;
+	for(int i = 0; i < 8*sizeof(rtn) && i < vec->taille; i++) {
+		rtn = (rtn << 1) + vec->tab[i];
+	}
+	return rtn;
+}

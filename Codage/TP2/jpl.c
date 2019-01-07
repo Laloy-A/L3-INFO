@@ -7,7 +7,7 @@ void initialiserJpl(struct jpl * jpl, int nb, ...) {
 	va_list ap;
 	va_start(ap, nb);
 	jpl->nombrePolynome = nb;
-	printf("\n nombre de polynome = %i\n", jpl->nombrePolynome);
+	// printf("\n nombre de polynome = %i\n", jpl->nombrePolynome);
 	while(nb > 0){
 		char * polynome;
 		taillePoly = 1;
@@ -39,15 +39,15 @@ ptrVecteur_t genererJpl(struct jpl jpl, size_t longueur) {
 	// v2 = genererSequence(jpl.tab[1].lm, 7);
 	// v3 = genererSequence(jpl.tab[2].lm, 31);
 
-	printf("\n--- DEBUT AFFICHAGE VECTEUR ---\n");
-
-	for(int i=0; i<jpl.nombrePolynome; i++){
-		jpl.tab[i].vec = genererSequence(jpl.tab[i].lm, jpl.tab[i].longueur);
-		printVecteur(jpl.tab[i].vec);
-		printf("\n");
-	}
-
-	printf("\n--- FIN AFFICHAGE VECTEUR ---\n");
+	// printf("\n--- DEBUT AFFICHAGE VECTEUR ---\n");
+	//
+	// for(int i=0; i<jpl.nombrePolynome; i++){
+	// 	jpl.tab[i].vec = genererSequence(jpl.tab[i].lm, jpl.tab[i].longueur);
+	// 	printVecteur(jpl.tab[i].vec);
+	// 	printf("\n");
+	// }
+	//
+	// printf("\n--- FIN AFFICHAGE VECTEUR ---\n");
 
 
 

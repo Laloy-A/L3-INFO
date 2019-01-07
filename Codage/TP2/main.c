@@ -9,46 +9,48 @@
 void poly(char *);
 
 int main(/*int argc, char const *argv[]*/) {
-
-	// ptrCodeLongMax_t lm = creerCodeLongMax("[5, 2]", "1");
-	//
-	// printlnCodeLongMax(lm);
-	//
-	// ptrVecteur_t vec;
-	// for(int i = 0; i < 1; i++) {
-	// 	vec = genererSequence(lm, 10);
-	// 	printVecteur(vec);
-	// 	printf("\n");
-	// 	detruireVecteur(&vec);
-	// }
-	//
-	// detruireCodeLongMax(&lm);
+	ptrVecteur_t vec;
 
 
-	struct gold gold;
-	struct jpl jpl;
-	initialiserGold(&gold, "[16, 14, 13, 11]");
-	initialiserJpl(&jpl, 3, "[2, 1]", "[3, 1]", "[5, 1]");
 
-	ptrVecteur_t vec, vec2;
 
-	printf("\nCodeur Gold :\n");
+	printf("\n---- Codeur à longeur maximale ----\n\nGénération de 10 nombres pseudo-aléatoires :\n");
 
-	for(int i = 0; i < 8; i++) {
-		vec = genererGold(gold, 16);
-		printVecteur(vec);
-		printf("\n");
+	ptrCodeLongMax_t lm = creerCodeLongMax("[16, 14, 13, 11]", "1");
+	for(int i = 0; i < 10; i++) {
+		vec = genererSequence(lm, 8*sizeof(int));
+		printf("\n\t%d\n", vecToInt(vec));
 		detruireVecteur(&vec);
 	}
+	detruireCodeLongMax(&lm);
 
-	printf("\nOn passe au codeur JPL :\n");
 
-	for(int i = 0; i < 8; i++) {
-		vec2 = genererJpl(jpl, 651);
-		printVecteur(vec2);
-		printf("\n");
-		detruireVecteur(&vec2);
+
+
+	printf("\n\n\n---- Codeur de Gold ----\n\nGénération de 10 nombres pseudo-aléatoires :\n");
+
+	struct gold gold;
+	initialiserGold(&gold, "[16, 14, 13, 11]");
+	for(int i = 0; i < 10; i++) {
+		vec = genererGold(gold, 8*sizeof(int));
+		printf("\n\t%d\n", vecToInt(vec));
+		detruireVecteur(&vec);
 	}
+	detruireVecteur(&vec);
+
+
+
+
+	printf("\n\n\n---- Codeur JPL ----\n\nGénération de 10 nombres pseudo-aléatoires :\n");
+
+	struct jpl jpl;
+	initialiserJpl(&jpl, 3, "[2, 1]", "[3, 1]", "[5, 1]");
+	for(int i = 0; i < 10; i++) {
+		vec = genererJpl(jpl, 8*sizeof(int));
+		printf("\n\t%d\n", vecToInt(vec));
+		detruireVecteur(&vec);
+	}
+	detruireVecteur(&vec);
 
 
 	return 0;

@@ -38,6 +38,10 @@ void detruireVecteur(ptrVecteur_t *);
 void printVecteur(ptrVecteur_t);
 
 
+/*
+	Convertie un vecteur en entier
+*/
+int vecToInt(ptrVecteur_t);
 
 
 
