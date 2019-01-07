@@ -26,4 +26,10 @@ void initialiserGold(struct gold * gold, char * polynome);
 */
 ptrVecteur_t genererGold(struct gold, size_t);
 
+
+/*
+	Libere l'espace memoire utilisé par les champs de la structure
+*/
+void detruireGold(struct gold *);
+
 #endif

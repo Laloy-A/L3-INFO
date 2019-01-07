@@ -15,10 +15,15 @@ ptrVecteur_t genererGold(struct gold g, size_t longeur) {
 
 	//res = v1 XOR v2
 	for(size_t i = 0; i < longeur; i++)
-		res->tab[i] = v1->tab[i] ^v2->tab[i];
+		res->tab[i] = v1->tab[i] ^ v2->tab[i];
 
 	detruireVecteur(&v1);
 	detruireVecteur(&v2);
 
 	return res;
+}
+
+void detruireGold(struct gold * g) {
+	detruireCodeLongMax(&g->lm1);
+	detruireCodeLongMax(&g->lm2);
 }

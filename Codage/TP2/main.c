@@ -36,23 +36,22 @@ int main(/*int argc, char const *argv[]*/) {
 		printf("\n\t%d\n", vecToInt(vec));
 		detruireVecteur(&vec);
 	}
-	detruireVecteur(&vec);
+	detruireGold(&gold);
 
 
 
-
-	printf("\n\n\n---- Codeur JPL ----\n\nGénération de 10 nombres pseudo-aléatoires :\n");
-
-	struct jpl jpl;
-
-	initialiserJpl(&jpl, 3, "[2, 1]", "[3, 1]", "[5, 1]");
-
-	for(int i = 0; i < 10; i++) {
-		vec = genererJpl(jpl, 8*sizeof(int));
-		printf("\n\t%d\n", vecToInt(vec));
-		detruireVecteur(&vec);
-	}
-	detruireVecteur(&vec);
+	// printf("\n\n\n---- Codeur JPL ----\n\nGénération de 10 nombres pseudo-aléatoires :\n");
+	//
+	// struct jpl jpl;
+	//
+	// initialiserJpl(&jpl, 3, "[2, 1]", "[3, 1]", "[5, 1]");
+	//
+	// for(int i = 0; i < 10; i++) {
+	// 	vec = genererJpl(jpl, 8*sizeof(int));
+	// 	printf("\n\t%d\n", vecToInt(vec));
+	// 	detruireVecteur(&vec);
+	// }
+	// detruireVecteur(&vec);
 
 
 
