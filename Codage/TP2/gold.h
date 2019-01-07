@@ -11,10 +11,10 @@ struct gold {
 
 
 /*
-	Initialise les codeurs à longeur maximale
+	Initialise les codeurs à longueur maximale
 
 	gold ==> la structure à initialiser
-	polynome ==> le polynome primitif pour l'initialisation des codeur a longeur max
+	polynome ==> le polynome primitif pour l'initialisation des codeur a longueur max
 */
 void initialiserGold(struct gold * gold, char * polynome);
 

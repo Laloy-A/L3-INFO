@@ -15,7 +15,7 @@ struct jpl {
 
 
 /*
-	initialise les codeurs à longeur maximale
+	initialise les codeurs à longueur maximale
 */
 void initialiserJpl(struct jpl * jpl, int nb, ...);
 

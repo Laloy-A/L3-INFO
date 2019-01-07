@@ -23,7 +23,7 @@ int main(/*int argc, char const *argv[]*/) {
 
 
 
-	printf("\n---- Codeur à longeur maximale ----\n\nGénération de %d nombres pseudo-aléatoires :\n", nbNombre);
+	printf("\n---- Codeur à longueur maximale ----\n\nGénération de %d nombres pseudo-aléatoires :\n", nbNombre);
 
 	ptrCodeLongMax_t lm = creerCodeLongMax("[16, 14, 13, 11]", "1");
 	for(int i = 0; i < nbNombre; i++) {

@@ -52,7 +52,7 @@ ptrCodeLongMax_t creerCodeLongMax(char * polynomeGenerateur, char * initialisati
 
 	//affectue la valeur d'initialisation aux registres
 	for(int i = 0; i < lm->registres->taille; i++)	//parcours registres
-		lm->registres->tab[i] = seqInit->tab[i % seqInit->taille];	//modulo s'explique car il se peut que la sequence d'init soit de longeur < aux registres
+		lm->registres->tab[i] = seqInit->tab[i % seqInit->taille];	//modulo s'explique car il se peut que la sequence d'init soit de longueur < aux registres
 
 	detruireVecteur(&seqInit);
 
@@ -67,10 +67,10 @@ void detruireCodeLongMax(ptrCodeLongMax_t * lm) {
 }
 
 
-ptrVecteur_t genererSequence(ptrCodeLongMax_t lm, size_t longeur) {
-	ptrVecteur_t vec = allouerVecteur(longeur);
+ptrVecteur_t genererSequence(ptrCodeLongMax_t lm, size_t longueur) {
+	ptrVecteur_t vec = allouerVecteur(longueur);
 
-	for(size_t i = 0; i < longeur; i++) {
+	for(size_t i = 0; i < longueur; i++) {
 		vec->tab[i] = lm->registres->tab[lm->registres->taille -1];	//valeur de sortie des registres ==> dernier registre
 		tick(lm);
 	}
