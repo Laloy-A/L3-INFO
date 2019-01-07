@@ -27,4 +27,10 @@ void initialiserJpl(struct jpl * jpl, int nb, ...);
 */
 ptrVecteur_t genererJpl(struct jpl, size_t);
 
+
+/*
+	Libere les champs de la structure jpl
+*/
+void detruireJpl(struct jpl *);
+
 #endif

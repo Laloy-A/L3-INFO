@@ -91,6 +91,12 @@ ptrVecteur_t genererJpl(struct jpl jpl, size_t longueur) {
 	detruireVecteur(&jpl.tab[0].vec);
 	detruireVecteur(&jpl.tab[1].vec);
 	detruireVecteur(&jpl.tab[2].vec);
+	detruireVecteur(&res);
 
 	return res2;
+}
+
+void detruireJpl(struct jpl * jpl) {
+	for(int i = 0; i < jpl->nombrePolynome; i++)
+		detruireCodeLongMax(&jpl->tab[i].lm);
 }
