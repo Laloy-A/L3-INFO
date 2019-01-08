@@ -122,13 +122,10 @@ void codage(struct lettreIntervalle * letInt, struct inventaire * inv, struct me
 		msg->borneInf = tampon + ( (msg->borneSup - tampon) * letInt->inter[j].borneInf );
 		msg->borneSup = tampon + ( (msg->borneSup - tampon) * letInt->inter[j].borneSup );
 
-
 		printf("Valeur borne inf = %.12Lf, borne supp = %.12Lf\n", msg->borneInf, msg->borneSup);
 
 	}
-
 	printf("%s [%.*4$Lf ; %.*4$Lf[\n", seq, msg->borneInf, msg->borneSup,  inv->nbLettre);
-
 }
 
 /* Permet de décoder le message coder précédemment */
@@ -140,16 +137,10 @@ void decodage(struct lettreIntervalle * letInt, struct messageIntervalle * msg, 
 
 	for(j = 0; j < inv->nbLettre; j++){ // On parcourt autant que le nombre de lettre dans la chaine
 		for(i = 0; i < inv->tailleInv; i++){ // On parcourt l'ensemble des lettres de l'inventaire
-			//printf("Valeur borne inf %.*2$Lf\n", msg->borneInf, inv->nbLettre);
 			if( (msg->borneInf >= letInt->inter[i].borneInf) && (msg->borneInf < letInt->inter[i].borneSup) ){
 				printf("%c - valeur borne inf %.*5$Lf - borne inf lettre %.*5$Lf - borne sup lettre %.*5$Lf\n", letInt->inter[i].caractere, msg->borneInf, letInt->inter[i].borneInf, letInt->inter[i].borneSup, inv->nbLettre);
-				//printf("Valeur de division %.*2$Lf", (letInt->inter[i].borneSup - letInt->inter[i].borneInf), inv->nbLettre);
 				msg->borneInf = (msg->borneInf - letInt->inter[i].borneInf)/(letInt->inter[i].borneSup - letInt->inter[i].borneInf);
-				//printf("Nouvelle valeur borne inf %.*2$Lf\n", msg->borneInf, inv->nbLettre);
 				break;
-			}
-			else{
-				//printf("--- %c - valeur borne inf %.*5$Lf - borne inf lettre %.*5$Lf - borne sup lettre %.*5$Lf\n", letInt->inter[i].caractere, msg->borneInf, letInt->inter[i].borneInf, letInt->inter[i].borneSup, inv->nbLettre);
 			}
 		}
 	}
@@ -168,7 +159,9 @@ long double code_art(char * seq) {
 
 	initIntervalle(&inventaire, &letInt);
 	printIntervalle(&letInt);
+	printf("\n\t--- Codage ---\n\n");
 	codage(&letInt, &inventaire, &msg, seq);
+	printf("\n\t--- Décodage ---");
 	decodage(&letInt, &msg, &inventaire);
 
 	return 0;
